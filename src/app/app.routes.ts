@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './application/home/home.component';
 import { MyApplicationComponent } from './application/my-application/my-application.component';
 import { ApplicationFormComponent } from './application/application-form/application-form.component';
-import {MyDocumentsComponent} from "./application/my-documents/my-documents.component";
+import {MyDocumentsComponent} from "./application/my-docs/my-documents.component";
 import { LoginComponent } from './application/login/login.component';
 import { authGuardFn } from '@auth0/auth0-angular';
 import { WebformsComponent } from './application/webforms/webforms.component';
@@ -24,7 +24,7 @@ import { ApplicantsComponent } from './admin/applicants/applicants.component';
 import { ApplicantComponent } from './admin/applicant/applicant.component';
 import { DocumentRequestComponent } from './admin/document-request/document-request.component';
 import { ApplicationDetailComponent } from './admin/application-detail/application-detail.component';
-import { WebformDocumentManagerComponent } from './admin/webform-document-manager/webform-document-manager.component';
+import { WebformDocumentManagerComponent } from './admin/webform-doc-manager/webform-doc-manager.component';
 
 export const routes: Routes = [
   { path:'login/:email', component:LoginComponent},

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WebformDocumentManagerComponent } from './webform-document-manager.component';
+import { WebformDocumentManagerComponent } from './webform-doc-manager.component';
 
 describe('WebformDocumentManagerComponent', () => {
   let component: WebformDocumentManagerComponent;

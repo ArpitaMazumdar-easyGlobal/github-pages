@@ -38,8 +38,8 @@ interface Tabs {
     HttpClientModule,
     TooltipModule,
   ],
-  templateUrl: './document-listing.component.html',
-  styleUrl: './document-listing.component.css',
+  templateUrl: './doc-listing.component.html',
+  styleUrl: './doc-listing.component.css',
 })
 export class DocumentListingComponent implements OnInit {
   @Input() documents: any[] = [];

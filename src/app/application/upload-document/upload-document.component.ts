@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { DocumentService } from '../../core/service/document.service';
-import { DocumentListingComponent } from '../my-documents/document-listing/document-listing.component';
+import { DocumentListingComponent } from '../my-docs/doc-listing/doc-listing.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';

@@ -21,8 +21,8 @@ import { ToastrService } from 'ngx-toastr';
     FormsModule
   ],
   providers: [AdminDashboardService,ToastrService],
-  templateUrl: './webform-document-manager.component.html',
-  styleUrl: './webform-document-manager.component.css',
+  templateUrl: './webform-doc-manager.component.html',
+  styleUrl: './webform-doc-manager.component.css',
 })
 export class WebformDocumentManagerComponent implements OnInit {
   webforms: WebForm[] = [];
@@ -34,7 +34,7 @@ export class WebformDocumentManagerComponent implements OnInit {
   loading: boolean = true;
   currentWebForm:any = null;
   currentDocument: any = null;
-  removeGuid:string = null;
+  removeGuid:string = '';
   // Pagination properties for WebForms
   firstWebForm: number = 0;
   rowsWebForm: number = 10;

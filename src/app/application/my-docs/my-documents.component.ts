@@ -4,7 +4,7 @@ import { AuthService } from "@auth0/auth0-angular";
 import { jwtDecode } from "jwt-decode";
 import { DocumentService } from "../../core/service/document.service";
 import { ChangeDetectorRef } from "@angular/core"; // Import ChangeDetectorRef
-import { DocumentListingComponent } from "./document-listing/document-listing.component";
+import { DocumentListingComponent } from "./doc-listing/doc-listing.component";
 import { Store } from "@ngrx/store";
 import { getTokenFromSession, selectUserType } from "../../core/session/session.selectors";
 import { HttpClientModule } from "@angular/common/http";
