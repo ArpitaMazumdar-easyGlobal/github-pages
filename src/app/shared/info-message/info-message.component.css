@@ -1,0 +1,21 @@
+.done-image {
+    max-width: 150px;
+    margin-bottom: 280px;
+}
+
+.done-title {
+    color: #3b82f6;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.done-message {
+    color: #848a92;
+    font-size: 16px;
+    margin-bottom: 10px;
+    max-width: 600px;
+    line-height: 1.6;
+    text-align: center;
+}

@@ -1,0 +1,17 @@
+    <app-loading *ngIf="loading"></app-loading>
+    <div class="sectionWithGrayBackground">
+    <div class="container-fluid" >
+      <div class="row">
+        <div *ngIf="!loading">
+            <div class="sectionWithGrayBackground">
+              <div class="container-fluid pageLayout">
+                <div class="row">
+                  <app-document-listing  [documents]="documents" [userId]="userId" (documentUploaded)="refreshDocuments($event)"
+                  (approveOrRejectDocument)="approveOrRejectDocument($event)"></app-document-listing>
+                </div>
+              </div>
+            </div>
+          </div>        
+      </div>
+    </div>
+  </div>

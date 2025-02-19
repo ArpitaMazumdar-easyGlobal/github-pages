@@ -1,0 +1,273 @@
+<div class="wrapper" *ngIf="matchedCandidatesList.length != 0">
+  <div style="padding: 20px">
+    <h1 class="heading">Manage Candidates</h1>
+    <p class="sub-text">
+      View all matched candidates in one place. Effortlessly review, shortlist,
+      schedule interviews, and select the best fit for your team.
+    </p>
+  </div>
+
+  <p-tabView>
+    <p-tabPanel *ngFor="let tab of tabs" [header]="tab.title">
+      <div class="card text-center" style="padding-inline: 0.8rem">
+        <p-table
+          [value]="tab.candidates"
+          [rows]="10"
+          [loading]="loading"
+          [paginator]="true"
+          [globalFilterFields]="[
+            'candidateFirstName',
+            'candidateLastName',
+            'candidateCountry',
+            'matchScore'
+          ]"
+        >
+          <ng-template pTemplate="header">
+            <tr class="table-heading">
+              <th>Name</th>
+              <th>Country</th>
+              <th>Match Score</th>
+              <th>Download Resume</th>
+              <th>Actions</th>
+            </tr>
+            <tr>
+              <th>
+                <p-columnFilter
+                  type="text"
+                  field="candidateFirstName+candidateLastName"
+                  placeholder="Search by name"
+                  ariaLabel="Filter Name"
+                ></p-columnFilter>
+              </th>
+              <th>
+                <p-columnFilter
+                  type="text"
+                  field="candidateCountry"
+                  placeholder="Search by country"
+                  ariaLabel="Filter Country"
+                ></p-columnFilter>
+              </th>
+              <th>
+                <p-columnFilter
+                  type="text"
+                  field="matchScore"
+                  placeholder="Search by match score"
+                  ariaLabel="Filter Match Score"
+                ></p-columnFilter>
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-candidate>
+            <tr [ngClass]="{ highlighted: candidate.matchScore >= 5 }">
+              <td class="text-center py-3">
+                <div class="flex items-center gap-2">
+                  <span>{{
+                    candidate.candidateFirstName +
+                      " " +
+                      candidate.candidateLastName
+                  }}</span>
+                  <i
+                    *ngIf="candidate.matchScore >= 5"
+                    class="fas fa-star text-yellow-400"
+                  ></i>
+                </div>
+              </td>
+              <td class="text-center">{{ candidate.candidateCountry }}</td>
+              <td class="text-center">{{ candidate.matchScore }}</td>
+              <td class="text-center">
+                <i
+                  class="pi pi-download cursor-pointer"
+                  (click)="downloadResume(candidate)"
+                ></i>
+              </td>
+              <td class="">
+                <div class="d-flex justify-content-center gap-2">
+                  <button
+                    *ngIf="candidate.statusValueCode === 'MATCHED'"
+                    class="btn-primary"
+                    (click)="opeDialog(candidate, 'SHORTLISTED')"
+                  >
+                    Shortlist
+                  </button>
+                  <button
+                    *ngIf="candidate.statusValueCode === 'MATCHED'"
+                    class="btn-danger"
+                    (click)="opeDialog(candidate, 'REJECTED')"
+                  >
+                    Reject
+                  </button>
+                  <button
+                    *ngIf="candidate.statusValueCode === 'SHORTLISTED'"
+                    class="btn-success"
+                    (click)="opeDialog(candidate, 'Send Interview Request')"
+                    [pTooltip]="
+                      !candidate.isInterviewLinkSent
+                        ? 'Click to send an interview booking link to the candidate'
+                        : 'Email already sent, click to send again'
+                    "
+                    tooltipPosition="top"
+                  >
+                    {{
+                      !candidate.isInterviewLinkSent
+                        ? "Send Interview Request"
+                        : "Re-send Interview Request"
+                    }}
+                  </button>
+                  <button
+                    *ngIf="candidate.statusValueCode === 'SHORTLISTED'"
+                    class="btn-success"
+                    (click)="openBookInterviewModal(candidate)"
+                    [disabled]="!employerSchedulingFormId"
+                    [pTooltip]="!employerSchedulingFormId ? 'No Calender is linked yet':' Book Interview with candidate'"
+                    tooltipPosition="top"
+                    
+                  >
+                    Book Interview
+                  </button>
+                  <button
+                    *ngIf="candidate.statusValueCode === 'SHORTLISTED'"
+                    class="btn-warning"
+                    (click)="opeDialog(candidate, 'FINALIZED')"
+                  >
+                    Finalize
+                  </button>
+                  <button
+                    *ngIf="candidate.statusValueCode === 'FINALIZED'"
+                    class="btn-success"
+                    (click)="onBookInterview(candidate)"
+                    [pTooltip]="
+                      !candidate.isInterviewLinkSent
+                        ? 'Click to send an interview booking link to the candidate'
+                        : 'Email already sent, click to send again'
+                    "
+                    tooltipPosition="top"
+                  >
+                    {{
+                      !candidate.isInterviewLinkSent
+                        ? "Send Interview Request"
+                        : "Re-send Interview Request"
+                    }}
+                  </button>
+                  <button
+                    *ngIf="candidate.statusValueCode === 'FINALIZED'"
+                    class="btn-primary"
+                    (click)="opeDialog(candidate, 'SHORTLISTED')"
+                  >
+                    Shortlist
+                  </button>
+                  <button
+                    *ngIf="candidate.statusValueCode === 'FINALIZED'"
+                    class="btn-danger"
+                    (click)="opeDialog(candidate, 'REJECTED')"
+                  >
+                    Reject
+                  </button>
+                  <button
+                    *ngIf="candidate.statusValueCode === 'REJECTED'"
+                    class="btn-primary"
+                    (click)="opeDialog(candidate, 'SHORTLISTED')"
+                  >
+                    Shortlist
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="6" class="text-center">No candidates found.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+
+  <!-- Actions Confirmation Dialog -->
+  <div class="dialog-box-container">
+    <p-dialog
+      [(visible)]="displayDialog"
+      [modal]="true"
+      [closable]="false"
+      header="Confirm Action"
+      class="dialog-box"
+    >
+      <p>
+        Are you sure you want to
+        <strong>{{ actionToConfirm.toLowerCase() }}</strong> this candidate?
+      </p>
+      <div class="dialog-footer">
+        <button
+          pButton
+          label="Yes"
+          class="btn-primary"
+          (click)="confirmAction()"
+        ></button>
+        <button
+          pButton
+          label="No"
+          class="btn-danger"
+          (click)="closeDialog()"
+        ></button>
+      </div>
+    </p-dialog>
+  </div>
+</div>
+<div *ngIf="matchedCandidatesList.length == 0" class="container-home done">
+  <div
+    class="d-flex justify-content-center align-items-center flex-column"
+    style="height: 100%"
+  >
+    <img
+      src="TaskCompletion.png"
+      alt="All Done"
+      width="200px"
+      class="done-image mb-4"
+    />
+
+    <h4 class="done-title">Submit the Intake Form</h4>
+    <p class="done-message">
+      Please complete the intake form so our team can evaluate your information
+      and match you with the most suitable positions. This will help us identify
+      the best candidates to meet your needs.
+    </p>
+  </div>
+</div>
+
+<!-- Modal to show book interview dialog box -->
+<!-- just have a modal and render the fillout component here  -->
+<div class="dialog-box-container">
+  <p-dialog
+    [(visible)]="displayBookInterviewModal"
+    [modal]="true"
+    [closable]="true"
+    header="Book Interview"
+    class="dialog-box"
+    [breakpoints]="{ '1500px': '95vw', '900px': '85vw', '575px': '90vw' }"
+  >
+    <!-- here add the fillout component -->
+    <app-fillout
+      [isChild]="displayBookInterviewModal"
+      [parentFilloutFormIdentifier]="employerSchedulingFormId"
+      [parentAutoFillData]="[
+        {
+          parameterName: 'candidatename',
+          autofillValue:
+            selectedCandidate.candidateFirstName +
+            ' ' +
+            selectedCandidate.candidateLastName
+        },
+        {
+          parameterName: 'candidateemail',
+          autofillValue: selectedCandidate.candidateEmail
+        },
+        {
+          parameterName: 'hostname',
+          autofillValue: employerName ? employerName : empNameInput
+        }
+      ]"
+    ></app-fillout>
+  </p-dialog>
+</div>

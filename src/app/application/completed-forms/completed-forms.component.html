@@ -1,0 +1,47 @@
+<div class="container-home">
+  
+    <div class="bottom">
+      <div class="title-wrapper">
+        <h5 class="title"> Submitted Application Forms</h5>
+      </div>
+      <div class="application-card" *ngFor="let form of forms">
+        <img src="Icon.svg" />
+  
+        <div class="application-content">
+          <div>
+            <p class="application-name">
+              {{ form.applicationStep_webFormName }}
+            </p>
+            <p class="application-des">
+              Check your eligibility to explore ...
+            </p>
+          </div>
+          
+            <div class="button-container">
+              <button class="apply-button" (click)="onFormClick(form)">
+                <img src="RightArrow.svg" />
+              </button>
+            </div>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div *ngIf="isAllFormsCompleted()" class="container-home done">
+    <div
+      class="d-flex justify-content-center align-items-center flex-column"
+      style="height: 100%;"
+    >
+      <img
+        src="undraw_chore_list_re_2lq8.png"
+        alt="All Done"
+        class="done-image mb-4"
+      />
+      <h4 class="done-title">You are all done for now!</h4>
+      <p class="done-message">
+        Thank you for completing all the required forms. Our team will review your
+        application and contact you soon with further steps. Stay tuned!
+      </p>
+    </div>
+  </div> -->
+  

@@ -1,0 +1,245 @@
+<div class="wrapper">
+  <div
+    style="padding-top: 20px"
+    class="d-flex justify-content-between align-items-center"
+  >
+    <div class="d-flex justify-content-between" style="width: 100%;">
+      <h1 class="title">Employers</h1>
+      <button class="btn-primary" (click)="openInviteModal()"> + Invite Employer</button>
+    </div>
+  </div>
+  <div style="padding-inline: 0.8rem" *ngIf="employers.length > 0">
+    <p-table
+      #dEmployer
+      [value]="employers"
+      [globalFilterFields]="[
+        'employerName',
+        'activeUsers',
+        'calendlyBookingLink'
+      ]"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rows]="5"
+      [paginator]="true"
+    >
+      <ng-template pTemplate="caption">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="pi pi-search"></i>
+            </span>
+          </div>
+          <input
+            pInputText
+            type="text"
+            class="form-control"
+            (input)="dEmployer.filterGlobal($event.target.value, 'contains')"
+            placeholder="Global Search"
+          />
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="employerName" class="w-25">
+            Employers <p-sortIcon field="employerName" />
+          </th>
+          <th pSortableColumn="activeUsers" class="w-20">
+            Active Users <p-sortIcon field="activeUsers" />
+          </th>
+          <th pSortableColumn="calendlyBookingLink" class="w-25">
+            Calendly Link <p-sortIcon field="calendlyBookingLink" />
+          </th>
+          <th pSortableColumn="schedulingFormId" class="w-20">
+            Scheduling FormId <p-sortIcon field="schedulingFormId" />
+          </th>
+          <th class="w-25">Actions</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-employer>
+        <tr [pSelectableRow]="employer">
+          <td>
+            <a [routerLink]="['/employerDashboard', employer.employerGuid]" 
+            [queryParams]="{ employerName: employer.employerName }">
+           {{ employer.employerName }}
+         </a>
+          </td>
+          <td>
+            <p>
+              <i class="fas fa-user text-sm"></i> {{ employer.activeUsers }}
+            </p>
+          </td>
+          <td>
+            {{ employer.calendlyBookingLink || "N/A" }}
+          </td>
+          <td class="text-center">
+            {{ employer.schedulingFormId || "N/A"}}
+          </td>
+          <td>
+            <button class="btn-warning" (click)="openEditDialog(employer)">
+              <i class="pi pi-pencil"></i>
+            </button>
+            <button class="btn-danger" (click)="openDeleteDialog(employer)">
+              <i class="pi pi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4" class="text-center">No Records found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div class="dialog-box-container">
+  <p-dialog
+    [(visible)]="displayEditEmployerModal"
+    [modal]="true"
+    [closable]="true"
+    [breakpoints]="{ '1500px': '65vw', '900px': '85vw', '575px': '90vw' }"
+    header="Update Employer"
+    class="dialog-box"
+  >
+    <div class="form-container" *ngIf="currentEmployer">
+      <div class="form-group">
+        <label for="employerName" class="form-label">Employer Name</label>
+        <input
+          id="employerName"
+          type="text"
+          [value]="currentEmployer?.employerName"
+          class="form-control"
+          disabled
+        />
+      </div>
+
+      <!-- <div class="form-group">
+        <label for="calendlyUrl" class="form-label">Calendly URL</label>
+        <input
+          id="calendlyUrl"
+          type="url"
+          [(ngModel)]="currentEmployer.calendlyBookingLink"
+          class="form-control"
+          placeholder="Provide the fillout scheduling form id here"
+        />
+      </div> -->
+
+      <div class="form-group">
+        <label for="schedulingFormId" class="form-label">Fillout Scheduling Form Id</label>
+        <input
+          id="schedulingFormId"
+          type="url"
+          [(ngModel)]="currentEmployer.schedulingFormId"
+          class="form-control"
+          placeholder="Provide the fillout scheduling form id here"
+        />
+      </div>
+    </div>
+
+    <div class="dialog-footer">
+      <button label="Update" class="btn-primary" (click)="updateEmployer()">
+        Update
+      </button>
+      <button label="Cancel" class="btn-danger" (click)="closeModal()">
+        Cancel
+      </button>
+    </div>
+  </p-dialog>
+</div>
+<div class="dialog-box-container">
+  <p-dialog
+    [(visible)]="displayDeleteDialog"
+    [modal]="true"
+    [closable]="false"
+    header="Confirm Action"
+    class="dialog-box"
+  >
+    <p>
+      Are you sure you want to <strong>delete</strong> this interview record?
+    </p>
+    <div class="dialog-footer">
+      <button label="Yes" class="btn-primary" (click)="deleteEmployer()">
+        Delete
+      </button>
+      <button label="No" class="btn-danger" (click)="closeDeleteDialog()">
+        Cancle
+      </button>
+    </div>
+  </p-dialog>
+</div>
+
+<div class="dialog-box-container" *ngIf="(displayInviteDialog && employerInvite)">
+  <p-dialog
+    [(visible)]="displayInviteDialog"
+    [modal]="true"
+    [closable]="true"
+    [breakpoints]="{ '1500px': '50vw', '900px': '70vw', '575px': '90vw' }"
+    header="Invite New Member"
+    class="dialog-box"
+  >
+    <div class="form-container">
+      <div class="form-group">
+        <label for="inviteFirstName" class="form-label">Employer Name:</label>
+        <input
+          id="inviteFirstName"
+          type="text"
+          [(ngModel)]="employerInvite.employerName"
+          class="form-control"
+        />
+      </div>
+      <div class="form-group">
+        <label for="inviteFirstName" class="form-label">Admin First Name:</label>
+        <input
+          id="inviteFirstName"
+          type="text"
+          [(ngModel)]="employerInvite.firstName"
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="inviteLastName" class="form-label">Admin Last Name:</label>
+        <input
+          id="inviteLastName"
+          type="text"
+          [(ngModel)]="employerInvite.lastName"
+          class="form-control"
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="inviteEmail" class="form-label">Admin Email:</label>
+        <input
+          id="inviteEmail"
+          type="email"
+          [(ngModel)]="employerInvite.email"
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="inviteRole" class="form-label">Role:</label>
+        <ng-select
+          id="inviteRole"
+          [(ngModel)]="employerInvite.accessType"
+          [items]="['Admin', 'Basic']"
+          bindLabel="role"
+          class="form-control"
+          [disabled]="true"
+        ></ng-select>
+      </div>
+    </div>
+
+    <div class="dialog-footer">
+      <button label="Invite" class="btn-primary" (click)="sendEmployerInvite()">
+        Invite
+      </button>
+      <button label="Cancel" class="btn-danger" (click)="closeInviteModal()">
+        Cancel
+      </button>
+    </div>
+  </p-dialog>
+</div>

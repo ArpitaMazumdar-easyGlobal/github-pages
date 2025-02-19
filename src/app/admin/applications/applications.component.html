@@ -1,0 +1,217 @@
+<div class="wrapper">
+  <div
+    style="padding: 20px"
+    class="d-flex justify-content-between align-items-center"
+  >
+    <div class="d-flex justify-content-between mb-2" style="width: 100%">
+      <h1 class="heading">Applications</h1>
+      <button class="btn-primary" (click)="openModalForAdd()">
+        Add Application
+      </button>
+    </div>
+  </div>
+  <div style="padding-inline: 0.8rem">
+    <p-table
+      #dt1
+      stripedRows
+      [value]="applications"
+      [globalFilterFields]="['applicationName', 'country', 'steps']"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rows]="5"
+      [paginator]="true"
+      dataKey="applicationId"
+    >
+      <ng-template pTemplate="caption">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="pi pi-search"></i>
+            </span>
+          </div>
+          <input
+            pInputText
+            type="text"
+            class="form-control"
+            (input)="dt1.filterGlobal($event.target.value, 'contains')"
+            placeholder="Global Search"
+          />
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="applicationName" class="w-25">
+            Application <p-sortIcon field="applicationName" />
+          </th>
+          <th pSortableColumn="country" class="w-25">
+            Country <p-sortIcon field="country" />
+          </th>
+          <th pSortableColumn="steps" class="">
+            Total Steps <p-sortIcon field="steps" />
+          </th>
+          <th pSortableColumn="instances" class="">Total Instances</th>
+          <th class="">Actions</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-application>
+        <tr [pSelectableRow]="application">
+          <td>
+            <a
+            [routerLink]="['application', application.applicationGuid]"
+            >
+              {{ application.applicationName }}
+            </a>
+          </td>
+          <td>
+           <p>  {{application.applicationCountry}}</p>
+          </td>
+          <td>
+            <p>{{ 10 }}</p>
+          </td>
+          <td>
+            <p><i class="fas fa-user text-sm"></i> {{ 10 }}</p>
+          </td>
+          <td>
+            <button class="btn-warning" (click)="openModalForEdit(application)">
+              <i class="pi pi-pencil"></i>
+            </button>
+            <button class="btn-danger" (click)="openDeleteDialog(application)">
+              <i class="pi pi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="4" class="text-center">No Records found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<!-- Add application modal and also for edit and delete -->
+<div class="dialog-box-container">
+  <p-dialog
+    [(visible)]="displayAddAppModal"
+    [modal]="true"
+    [closable]="true"
+    [breakpoints]="{ '1500px': '65vw', '900px': '85vw', '575px': '90vw' }"
+    [header]="isEditMode ? 'Edit Application' : 'Add Application'"
+    class="dialog-box"
+  >
+    <div class="form-container">
+      <div class="form-group">
+        <label for="applicationName" class="form-label">Application Name</label>
+        <input
+          id="applicationName"
+          placeholder="Enter Application Name"
+          type="text"
+          class="form-control"
+          [(ngModel)]="currentApplication.applicationName"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="applicationDescription" class="form-label"
+          >Application Description</label
+        >
+        <input
+          id="applicationDescription"
+          placeholder="Enter Application Description"
+          type="text"
+          class="form-control"
+          [(ngModel)]="currentApplication.applicationDescription"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="applicationCountry" class="form-label"
+          >Application Country</label
+        >
+        <ng-select
+          [(ngModel)]="currentApplication.applicationCountry"
+          [items]="countries"
+          [searchable]="true"
+          [clearable]="true"
+          bindLabel="displayLabel"
+          bindValue="displayLabel"
+          placeholder="Select Application's Country"
+          class="form-control"
+          required="true"
+        ></ng-select>
+      </div>
+
+      <div class="form-group">
+        <label for="destinationCountry" class="form-label"
+          >Destination Country</label
+        >
+        <ng-select
+          [(ngModel)]="currentApplication.destinationCountry"
+          [items]="countries"
+          [searchable]="true"
+          [clearable]="true"
+          bindLabel="displayLabel"
+          bindValue="displayLabel"
+          placeholder="Select Destination Country"
+          class="form-control"
+          required="true"
+        ></ng-select>
+      </div>
+
+      <div class="form-group">
+        <label for="headerBanner" class="form-label">Application Banner</label>
+        <input
+          id="headerBanner"
+          type="url"
+          placeholder="Like I Want to Hire/Study/Work etc"
+          class="form-control"
+          [(ngModel)]="currentApplication.headerBanner"
+        />
+      </div>
+    </div>
+
+    <div class="dialog-footer">
+      <button
+        pButton
+        label="{{ isEditMode ? 'Update' : 'Add' }}"
+        class="btn-primary"
+        (click)="saveApplication()"
+      ></button>
+      <button
+        pButton
+        label="Cancel"
+        class="btn-danger"
+        (click)="closeModal()"
+      ></button>
+    </div>
+  </p-dialog>
+</div>
+<div class="dialog-box-container">
+  <p-dialog
+    [(visible)]="displayDeleteDialog"
+    [modal]="true"
+    [closable]="false"
+    header="Confirm Action"
+    class="dialog-box"
+  >
+    <p>
+      Are you sure you want to <strong>delete</strong> this interview record?
+    </p>
+    <div class="dialog-footer">
+      <button
+        pButton
+        label="Yes"
+        class="btn-primary"
+        (click)="deleteApplication()"
+      ></button>
+      <button
+        pButton
+        label="No"
+        class="btn-danger"
+        (click)="closeDeleteDialog()"
+      ></button>
+    </div>
+  </p-dialog>
+</div>

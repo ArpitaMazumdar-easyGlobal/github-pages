@@ -1,0 +1,23 @@
+
+
+      <div class="container-fluid">
+        <div class="row">
+            <div class="container-myapplication">
+                <h5 class="heading"> My Applications</h5>
+                <div class="application-card" *ngFor="let application of applicationInstances" (click)="takeToApplicationDetailPage(application.applicationGuid, application.applicationInstanceGuid)">
+                    <div class="application-content">
+                        <i class="fas fa-clipboard-check"></i>
+                        <div class="application-details">
+                            <div class="application-item">
+                                <p class="application-name">{{ application.applicationName }}</p>
+                                <p class="date">Applied : {{application.createdAtFormatted}}</p>
+                            </div>
+                            <div class="application-item">
+                                <p class="application-id">Application Id: {{ application.applicationIdentifier }} | </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>

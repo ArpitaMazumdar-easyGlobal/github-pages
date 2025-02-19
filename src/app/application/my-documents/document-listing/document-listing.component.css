@@ -1,0 +1,286 @@
+.wrapper{
+    background-color: white; border-radius: 10px; margin: 4rem 1rem 1rem 1rem;
+}
+.custom-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: calc(100vh - 200px);
+    max-height: calc(100vh - 200px);
+    background-color: white;
+    padding-block: 1rem;
+    padding-inline: 1.3rem;
+    border-radius: 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    overscroll-behavior: contain auto;
+}
+
+::ng-deep ul{
+    margin: 0;
+}
+::ng-deep a{
+    text-decoration: none !important ;
+}
+.sub-text{
+    color: #666; font-size: 14px; margin: 5px 0 10px;
+}
+.heading{
+    color: #333; font-size: 24px; font-weight: bold; margin: 0;
+}
+.table-header, .table-row {
+    display: flex;
+}
+
+.table-cell {
+    padding: 1rem;
+    flex: 1;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    color: #677788;
+    font-size: 13px;
+   
+}
+.upload-cta{
+    color: #007BFF;  
+}
+.upload-cta > p{
+    background-color: #ebe9e9;
+    border-radius: 2px;
+    width: fit-content;
+    padding: 6px;
+    font-size: 11px;
+}
+.table-cell.name{
+    font-size:15px;
+    font-weight: 500;
+    color: #1E2022;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.table-cell.name > img {
+    align-self: self-start;
+}
+.table-header {
+    background-color: white;
+    font-weight: bold;
+}
+.table-header > .table-cell {
+    color: #677788;
+    font-size: 13px;
+}
+
+.table-row {
+    background-color: white;
+    font-size: 14px;
+    color: #1E2022;
+}
+
+
+.table-row .table-cell:first-child,
+.table-header .table-cell:first-child {
+    flex: 3; 
+    flex-shrink: 0;
+}
+
+/* Actions */
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+.actions p {
+    margin: 0;
+    padding: 0 0.5rem;
+    cursor: pointer;
+}
+
+.actions i {
+    font-size: 14px;
+}
+
+.more-btn {
+    position: relative;
+    cursor: pointer;
+}
+
+.more-btn:hover {
+    color: #000;
+}
+
+.more-btn i {
+    font-size: 14px;
+}
+
+.more-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 150px;
+    z-index: 10;
+}
+
+.more-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.more-menu li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.more-menu li:hover {
+    background-color: #f4f4f4;
+}
+.status {
+    font-size: 12px;
+    font-weight: bold;
+}
+.status-dot{
+    font-size: 6px;
+}
+.status-completed{
+    color: #28A745;
+
+}
+.status-pending{
+    color: #CC8500;
+}
+.status-rejected{
+color: #DC3535;
+}
+.status-requested{
+    color: #007BFF;
+}
+.title {
+    color: #1E2022;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+
+}
+.custom-button{
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+}
+::ng-deep .p-fileupload-row.ng-star-inserted{
+    display: none !important; 
+}
+::ng-deep .custom-button{
+    font-size: 12px;
+    padding: 0;
+    
+}
+::ng-deep .p-button-icon{
+    font-size: 14px;
+}
+::ng-deep .p-button.p-button-icon-only{
+    width: 30px;
+    height: 30px;
+    border-radius:50% ;
+    margin-inline: 5px;
+    margin-block:10px;
+}
+::ng-deep .p-dialog-footer{
+    padding: 20px;
+}
+::ng-deep .p-button-label{
+    padding-inline: 16px;
+    padding-block: 8px;
+    border-radius: 20px;
+}
+.custom-content-template{
+    margin: 1rem;
+}
+.upload-button{
+    padding: 5px 10px; 
+    background-color: #007bff; 
+    color: white; 
+    border: none; 
+    border-radius: 4px; 
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+.upload-button:disabled{
+    background-color: #7db3ec;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+.cancel-button{
+    padding: 5px 10px; 
+    background-color: #dc3545; 
+    color: white; 
+    border: none; 
+    outline: none;
+    border-radius: 4px; 
+    font-size: 0.875rem;
+}
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+::ng-deep .p-tabview-title{
+    font-size: 14px;
+    color: gray;
+    padding: 1rem;
+    text-decoration: none;
+}
+
+
+::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+    border: none;
+}
+::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    border-bottom:  2px solid #6366f1;
+}
+@media screen and (max-width: 768px) {
+    .wrapper{
+    margin: 4rem 0 0 0;
+    padding:0;
+
+    }
+    .custom-table {
+        padding-inline: 0;
+
+    }
+    .sub-text{
+   font-size: 12px; 
+    }
+    .heading{
+     font-size: 20px; 
+    }
+    .table-cell {
+        min-width: 120px; 
+        overflow-wrap: break-word;
+      }
+    
+      .table-cell.name {
+        min-width: 150px; 
+      }
+    
+      .table-cell.actions {
+        min-width: 100px; 
+      }
+      ::ng-deep .p-tabview-title{
+        padding-inline: 0.5rem;
+
+      
+    }
+    ::ng-deep ul {
+        padding-left: 0;
+    }
+}

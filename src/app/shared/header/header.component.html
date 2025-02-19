@@ -1,0 +1,148 @@
+<nav
+  class="navbar navbar-expand-lg navbar-light bg-light fixed-top"
+  *ngIf="auth.user$ | async as user"
+>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="logo.png" alt="" width="140" style="padding: 3px" />
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item" *ngIf="userType === 'ADMIN'">
+                <a
+                class="nav-link"
+                [ngClass]="{ 'active': activeLink === 'Admin Dashboard' }"
+                (click)="handleSetActiveLink('Admin Dashboard')"
+                routerLink="/admin"
+            >Admin Dashboard</a>
+              </li>
+              <li class="nav-item" *ngIf="userType === 'ADMIN'">
+                <a
+                class="nav-link"
+                [ngClass]="{ 'active': activeLink === 'Forms/Documents' }"
+                (click)="handleSetActiveLink('Forms/Documents')"
+                routerLink="/forms-documents"
+            >Forms/Documents</a>
+              </li>
+              <li class="nav-item" *ngIf="userType && userType === 'APPLICANT'">
+                <a
+                class="nav-link"
+                [ngClass]="{ 'active': activeLink === 'My Application' }"
+                (click)="handleSetActiveLink('My Application')"
+                routerLink="/myapplication"
+            >My Application</a>
+              </li>
+              <li class="nav-item" *ngIf="userType && userType === 'EMPLOYER' && userAccessType === 'ADMIN'">
+                <a
+                class="nav-link"
+                [ngClass]="{ 'active': activeLink === 'Employer Dashboard' }"
+                (click)="handleSetActiveLink('Employer Dashboard')"
+                routerLink="/employerDashboard"
+            >Employer Dashboard</a>
+              </li>
+              <li class="nav-item" *ngIf="userType !== 'ADMIN'&& (!userAccessType || userAccessType==='ADMIN')">
+                  <a
+                      class="nav-link"
+                      [ngClass]="{ 'active': activeLink === 'My Documents' }"
+                      (click)="handleSetActiveLink('My Documents')"
+                      routerLink="/mydocuments"
+                  >My Documents</a>
+              </li>
+              <li class="nav-item" *ngIf="userType === 'EMPLOYER'"> 
+                <a
+                    class="nav-link"
+                    [ngClass]="{ 'active': activeLink === 'Manage Candidates' }"
+                    (click)="handleSetActiveLink('Manage Candidates')"
+                    routerLink="/manageCandidates"
+                >Manage Candidates</a>
+            </li>
+            <li class="nav-item" *ngIf="userType === 'ADMIN' "> 
+                <a
+                    class="nav-link"
+                    [ngClass]="{ 'active': activeLink === 'Applicants' }"
+                    (click)="handleSetActiveLink('Applicants')"
+                    routerLink="admin/applicants"
+                >Applicants</a>
+            </li>
+            <li class="nav-item" *ngIf="userType === 'EMPLOYER' || userType === 'ADMIN' "> 
+                <a
+                    class="nav-link"
+                    [ngClass]="{ 'active': activeLink === 'Upcoming Interviews' }"
+                    (click)="handleSetActiveLink('Upcoming Interviews')"
+                    routerLink="/upcomingInterviews"
+                >Upcoming Interviews </a>
+            </li>
+            <li class="nav-item" *ngIf="userType === 'ADMIN'">
+              <a
+                class="nav-link"
+                [ngClass]="{ active: activeLink === 'Document Request' }"
+                (click)="handleSetActiveLink('Document Request')"
+                routerLink="/documentRequest"
+                >Document Request
+              </a>
+            </li>
+              <li class="nav-item" >
+                  <a
+                      class="nav-link"
+                      [ngClass]="{ 'active': activeLink === 'Help?' }"
+                      (click)="handleSetActiveLink('Help?')"
+                      routerLink="/help"
+                  >Help?</a>
+              </li>
+          </ul>
+
+      <div class="right-navbar-section">
+        <div class="d-flex align-items-center">
+          <button
+            mat-icon-button
+            (click)="toggleDrawer(true)"
+            class="notification-btn"
+          >
+            <img src="Notification.svg" />
+          </button>
+
+          <button
+            mat-button
+            [matMenuTriggerFor]="menu"
+            aria-label="User Profile"
+          >
+            <img
+              [src]="user.picture"
+              alt="Profile"
+              width="40"
+              height="40"
+              class="rounded-circle"
+            />
+          </button>
+
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="/profile">
+              {{ user.nickname }}
+            </button>
+            <button mat-menu-item routerLink="/settings">
+              Change Password
+            </button>
+            <button mat-menu-item (click)="logout()">Logout</button>
+          </mat-menu>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-notification-drawer
+    [open]="drawerOpen"
+    (toggleDrawer)="toggleDrawer($event)"
+  ></app-notification-drawer>
+</nav>

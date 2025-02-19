@@ -1,0 +1,5 @@
+<div *ngIf="isDocumentsLoaded">
+    <app-document-listing  [documents]="documents" [userId]="userId" (documentUploaded)="refreshDocuments($event)" [currentStepGuid]="currentStepGuid" 
+    (approveOrRejectDocument)="approveOrRejectDocument($event)"></app-document-listing>
+</div>
+

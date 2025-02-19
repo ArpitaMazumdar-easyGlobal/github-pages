@@ -1,0 +1,58 @@
+<section class="form-section">
+  <div *ngIf="webFormInstanceGuid" class="d-flex justify-content-between">
+   <button class="back-button" (click)="onBack()"> <i class="fa-solid fa-arrow-left"></i> Back</button>
+   <button
+     class="btn-primary add-interview-button"
+     (click)="openModal()"
+     *ngIf="userType === 'ADMIN' && webformName.includes('LMIA Eligibility Assessment Completed')"
+   >
+     Add LMIA Positions
+   </button>
+  </div>
+  <div id="filloutID" class="fillout-container">
+   <h5 *ngIf="webformName?.length" class="heading">{{ webformName }}</h5>
+   <div #filloutFormContainer></div>
+ </div>
+ 
+
+     <!-- Add LMIA Position Modal -->
+ <div class="dialog-box-container">
+   <p-dialog
+   [(visible)]="displayModal"
+   [modal]="true"
+   [closable]="true"
+   [breakpoints]="{ '1500px': '65vw', '900px': '85vw', '575px': '90vw' }"
+   [header]="'Add LIMA Positions'"
+   class="dialog-box"
+ >
+   <div class="form-container">
+     <div class="form-group">
+       <label for="autofillValue" class="form-label">Enter the LMIA Position Employer is eligible for: </label>
+       <input
+       name="autoFillValue"
+         id="autofillValue"
+         type="url"
+         [(ngModel)]="autoFillValue"
+         class="form-control"
+       />
+     </div>
+   </div>
+ 
+   <div class="dialog-footer">
+     <button
+       pButton
+       label="Add"
+       class="btn-primary"
+       (click)="addValue()"
+     ></button>
+     <button
+       pButton
+       label="Cancel"
+       class="btn-danger"
+       (click)="closeModal()"
+     ></button>
+   </div>
+ </p-dialog>
+ 
+ </div>
+</section>

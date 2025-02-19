@@ -1,0 +1,57 @@
+.form-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    margin-inline: 1.5rem;
+    color: #333;
+  }
+  .back-button{
+    background-color: transparent;
+    border: 2px solid #b8b8b8;
+    padding-inline:20px;
+    padding-block: 5px;
+    border-radius: 20px;
+    margin-bottom: 20px;  
+    color:#747373;  
+}
+  .answer-card {
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    transition: box-shadow 0.3s ease;
+  }  
+  .answer-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 0.5rem;
+  }
+  
+  .answer-text {
+    color: #666;
+    font-size: 1rem;
+  }
+  
+  .answer-label {
+    font-weight: 500;
+  }
+  
+  .no-answer {
+    font-style: italic;
+    color: #bbb;
+  }
+  .container{
+    background-color: white;
+    padding:1rem;
+    border-radius: 10px;
+  }
+  .loading-indicator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #555;
+    text-align: center;
+  }

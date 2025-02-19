@@ -1,0 +1,61 @@
+<div class="employer-user-container">
+  <div *ngIf="!isEmployerEditing" class="card">
+    <h5 class="card-header">Employer Details:</h5>
+    <div class="card-body">
+      <div
+        class="d-flex flex-sm-row flex-column justify-content-between align-items-center"
+      >
+        <div>
+          <h5 class="card-title employer-title fs-2">
+            {{ employer?.employerName }}
+          </h5>
+          <div class="d-flex flex-column justify-content-start">
+            <span class="card-text"
+              >Sign Up Date: {{ employer?.signUpDate }}</span
+            >
+            <span class="card-text">
+              Calendly Link: {{ employer?.calendlyBookingLink }}
+            </span>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <span (click)="enableEditing()" class="btn btn-primary">Edit</span>
+          <span (click)="deleteEmployer()" class="btn btn-danger">Delete</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isEmployerEditing" class="card">
+    <h5 class="card-header">Update Employer:</h5>
+    <div class="p-2">
+      <form class="row g-3">
+        <div class="col-md-6">
+          <label for="inputName" class="form-label">Employer Name</label>
+          <input [(ngModel)]="employer.employerName" name="employerName" type="text" class="form-control" id="inputName" />
+        </div>
+        <div class="col-6">
+          <label for="inputCalendly" class="form-label"
+            >Calendly Booking Link</label
+          >
+          <input [(ngModel)]="employer.calendlyBookingLink" name="calendlyBookingLink" type="text" class="form-control" id="inputCalendly" />
+        </div>
+        <div class="col-12">
+          <div class="d-flex gap-2">
+            <button (click)="updateEmployer()" class="btn btn-primary">Update</button>
+            <button (click)="cancelEditing()" class="btn btn-danger">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card mt-3">
+    <h5 class="card-header">Users Details:</h5>
+    <div class="d-flex flex-column gap-3 p-3">
+      <app-user *ngFor="let user of users" [user]="user"></app-user>
+    </div>
+  </div>
+</div>

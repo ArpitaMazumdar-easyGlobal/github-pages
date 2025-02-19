@@ -1,0 +1,312 @@
+
+  .wrapper{
+    background-color: white; border-radius: 10px; margin: 4rem 1rem 1rem 1rem;
+}
+.custom-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: calc(100vh - 200px);
+    max-height: calc(100vh - 200px);
+    background-color: white;
+    padding-block: 1rem;
+    padding-inline: 1.3rem;
+    border-radius: 16px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    overscroll-behavior: contain auto;
+}
+
+::ng-deep ul{
+    margin: 0;
+}
+::ng-deep a{
+    text-decoration: none !important ;
+}
+.sub-text{
+    color: #666; font-size: 14px; margin: 5px 0 10px;
+}
+.heading{
+    color: #333; font-size: 24px; font-weight: bold; margin: 0;
+}
+.table-header, .table-row {
+    display: flex;
+}
+
+.table-cell {
+    padding: 1rem;
+    flex: 1;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    color: #677788;
+    font-size: 14px;
+    text-wrap: wrap;
+}
+
+.table-cell.name{
+    font-size:15px;
+    color: #677788;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.table-header {
+    background-color: white;
+    font-weight: bold;
+}
+.table-header > .table-cell {
+    color: #677788;
+    font-size: 13px;
+}
+
+.table-row {
+    background-color: white;
+    font-size: 15px;
+    color: #1E2022;
+}
+/* .table-row .table-cell:first-child,
+.table-header .table-cell:first-child {    
+    flex:2;
+    flex-shrink: 0;
+} */
+
+/* Actions */
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+.actions p {
+    margin: 0;
+    padding: 0 0.5rem;
+    cursor: pointer;
+}
+
+.actions i {
+    font-size: 14px;
+}
+
+.more-btn {
+    position: relative;
+    cursor: pointer;
+}
+
+.more-btn:hover {
+    color: #000;
+}
+
+.more-btn i {
+    font-size: 14px;
+}
+
+.more-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 150px;
+    z-index: 10;
+}
+
+.more-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.more-menu li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.more-menu li:hover {
+    background-color: #f4f4f4;
+}
+
+.title {
+    color: #1E2022;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 28px;
+
+}
+.custom-button{
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+}
+::ng-deep .p-fileupload-row.ng-star-inserted{
+    display: none !important; 
+}
+::ng-deep .custom-button{
+    font-size: 12px;
+    padding: 0;
+    
+}
+::ng-deep .p-button-icon{
+    font-size: 14px;
+}
+::ng-deep .p-button.p-button-icon-only{
+    width: 30px;
+    height: 30px;
+    border-radius:50% ;
+    margin-inline: 5px;
+    margin-block:10px;
+}
+::ng-deep .p-button{
+    height: 30px;
+    margin-inline: 5px;
+    margin-block:10px;
+}
+::ng-deep .p-dialog-footer{
+    padding: 20px;
+}
+::ng-deep .p-button-label{
+    padding-inline: 16px;
+    padding-block: 8px;
+    border-radius: 20px;
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+::ng-deep .p-tabview-title{
+    font-size: 14px;
+    color: gray;
+    padding: 1rem;
+    text-decoration: none;
+}
+
+
+::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+    border: none;
+}
+::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    border-bottom:  2px solid #6366f1;
+}
+@media screen and (max-width: 768px) {
+    .wrapper{
+    margin: 4rem 0 0 0;
+    padding:0;
+
+    }
+    .custom-table {
+        padding-inline: 0;
+
+    }
+    .sub-text{
+   font-size: 12px; 
+    }
+    .heading{
+     font-size: 20px; 
+    }
+    .table-cell {
+        min-width: 120px; 
+        overflow-wrap: break-word;
+      }
+   
+      .table-cell.actions {
+        min-width: 100px; 
+      }
+      ::ng-deep .p-tabview-title{
+        padding-inline: 0.5rem;
+
+      
+    }
+    ::ng-deep ul {
+        padding-left: 0;
+    }
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  button {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 2px;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: white;
+  }
+  
+  button.btn-primary {
+   border: 1px solid #007bff;
+   color:#007bff;
+
+  }
+  
+  button.btn-danger {
+    border: 1px solid #dc3545;
+   color:#dc3545;
+
+  }
+  
+  button.btn-success {
+    border: 1px solid #28a745;
+   color:#28a745;
+  }
+  
+  button.btn-warning {
+    border: 1px solid #ffc107;
+   color:#ffc107;
+
+  }
+
+  
+
+  /* confirm action dialog box  */
+
+  .dialog-box-container{
+    padding: 1.3rem;
+  }
+  ::ng-deep .p-dialog {
+    padding: 1rem;
+    background-color: white;
+  }
+  .add-interview-button{
+    display: inline;
+  }
+
+  .col-form-label{
+    font-size: 14px;
+    color: #333;
+  }
+  .form-control:focus{
+    border: none;
+    outline: none;
+  }
+  .form-control:active{
+    border: none;
+    outline: none;
+  }
+  .form-group{
+    margin-bottom:0.7rem;
+  }
+  ::ng-deep .ng-select .ng-select-container{
+    border-radius: 0px ;
+    border: none ;
+  }
+  ::ng-deep .ng-select .ng-select-container:hover{
+
+    box-shadow: none;
+  }
+  ::ng-deep .ng-option-label{
+    font-size: 13.8px;
+  }
+  .dialog-footer{
+    display: flex;
+    flex-direction: row-reverse;
+  }

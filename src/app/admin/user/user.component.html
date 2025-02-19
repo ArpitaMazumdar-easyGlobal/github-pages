@@ -1,0 +1,79 @@
+<div *ngIf="!isUserEditing" class="card">
+  <div class="card-body">
+    <div
+      class="d-flex flex-sm-row flex-column justify-content-between align-items-center"
+    >
+      <div>
+        <h5 class="card-title user-name fs-2">
+          {{ user?.firstName }} {{ user?.lastName }}
+        </h5>
+        <div class="d-flex flex-column justify-content-start">
+          <span class="card-text">Email Id: {{ user?.userEmail }}</span>
+          <span class="card-text"
+            >Contact Number: {{ user?.mobileNumber }}</span
+          >
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <span (click)="enableUserEditing()" class="btn btn-primary">Edit</span>
+        <span (click)="deleteUser()" class="btn btn-danger">Delete</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isUserEditing" class="card">
+  <h5 class="card-header">Update User:</h5>
+  <div class="p-2">
+    <form class="row g-3">
+      <div class="col-md-6">
+        <label for="inputFirstName" class="form-label">First Name</label>
+        <input
+          [(ngModel)]="user.firstName"
+          name="firstName"
+          type="text"
+          class="form-control"
+          id="inputFirstName"
+        />
+      </div>
+      <div class="col-6">
+        <label for="inputLastName" class="form-label">Last Name</label>
+        <input
+          [(ngModel)]="user.lastName"
+          name="lastName"
+          type="text"
+          class="form-control"
+          id="inputLastName"
+        />
+      </div>
+      <div class="col-6">
+        <label for="inputEmailId" class="form-label">Email Id</label>
+        <input
+          [(ngModel)]="user.userEmail"
+          name="userEmail"
+          type="email"
+          class="form-control"
+          id="inputEmailId"
+        />
+      </div>
+      <div class="col-6">
+        <label for="inputContactNumber" class="form-label">Contact Number</label>
+        <input
+          [(ngModel)]="user.mobileNumber"
+          name="mobileNumber"
+          type="text"
+          class="form-control"
+          id="inputContactNumber"
+        />
+      </div>
+      <div class="col-12">
+        <div class="d-flex gap-2">
+          <button (click)="updateUser()" class="btn btn-primary">Update</button>
+          <button (click)="cancelEditing()" class="btn btn-danger">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

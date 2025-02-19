@@ -1,0 +1,223 @@
+<div class="wrapper">
+  <div>
+    <h4 class="main-heading">
+      <i (click)="onBack()" class="fas fa-arrow-left back"></i>
+      Forms/Documents Listing
+    </h4>
+  </div>
+  <p-tabView>
+    <p-tabPanel header="Forms/Information">
+      <div class="tab-content-container">
+        <div class="heading-container">
+          <div class="heading">
+            <h3 class="name">Forms/Information</h3>
+            <p class="des">
+              List of all the WebForms and Informational that can be added to
+              application steps
+            </p>
+          </div>
+          <button
+            class="btn btn-outline-primary"
+            (click)="openWebFormDocumentModal(true)"
+          >
+            + Add Form
+          </button>
+        </div>
+        <div>
+          <!-- Use the paginatedWebForms getter for listing -->
+          <div
+            *ngFor="let webform of paginatedWebForms"
+            class="d-flex content-card"
+          >
+            <div class="contnet">
+              <div>
+                <p class="name">{{ webform.webFormName }}</p>
+                <p class="des">WebForm description</p>
+              </div>
+            </div>
+            <button
+              class="btn btn-xs btn-outline-danger"
+              (click)="
+                openDeleteFormDocModal(true, webform.webFormGuid)
+              "
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+        <!-- Paginator for WebForms -->
+        <div class="card flex justify-center" style="margin-top: 1rem">
+          <p-paginator
+            (onPageChange)="onWebFormPageChange($event)"
+            [first]="firstWebForm"
+            [rows]="rowsWebForm"
+            [totalRecords]="totalWebForms"
+            [rowsPerPageOptions]="[10, 20, 30]"
+          >
+          </p-paginator>
+        </div>
+      </div>
+    </p-tabPanel>
+
+    <p-tabPanel header="Document Collections">
+      <div class="tab-content-container">
+        <div class="heading-container">
+          <div class="heading">
+            <h3 class="name">Document Collection</h3>
+            <p class="des">
+              List of all the Document Collections that can be added to an
+              application step or Document Request
+            </p>
+          </div>
+          <button
+            class="btn btn-sm btn-outline-primary"
+            (click)="openWebFormDocumentModal(false)"
+          >
+            + Add Document
+          </button>
+        </div>
+        <div>
+          <!-- Use the paginatedDocuments getter for listing -->
+          <div *ngFor="let doc of paginatedDocuments" class="content-card">
+            <div class="content">
+              <div>
+                <p class="name">{{ doc.documentTypeName }}</p>
+                <p class="des">{{ doc.documentTypeDescription }}</p>
+              </div>
+            </div>
+            <button
+              class="btn btn-xs btn-outline-danger"
+              (click)="
+                openDeleteFormDocModal(
+                  false,
+                  doc.documentTypeGuid
+                )
+              "
+            >
+              Remove
+            </button>
+          </div>
+        </div>
+        <!-- Paginator for Documents -->
+        <div class=" flex justify-center" style="margin-top: 1rem">
+          <p-paginator
+            (onPageChange)="onDocumentPageChange($event)"
+            [first]="firstDocument"
+            [rows]="rowsDocument"
+            [totalRecords]="totalDocuments"
+            [rowsPerPageOptions]="[5,10, 20, 30]"
+          >
+          </p-paginator>
+        </div>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+</div>
+
+<!-- Add Webform/Document Modal -->
+<div class="dialog-box-container">
+  <p-dialog
+    [(visible)]="displayWebFormDocumentModal"
+    [modal]="true"
+    [closable]="true"
+    [breakpoints]="{ '1500px': '65vw', '900px': '85vw', '575px': '90vw' }"
+    [header]="isAddWebForm ? 'Add WebForm' : 'Add Document'"
+    class="dialog-box"
+  >
+    <div class="form-container" *ngIf="isAddWebForm && currentWebForm">
+      <div class="form-group">
+        <label for="webFormName" class="form-label"
+          >Provide WebForm Name:
+        </label>
+        <input
+          id="webFormName"
+          type="text"
+          placeholder="Webform Name"
+          class="form-control"
+          [(ngModel)]="currentWebForm.webFormName"
+          required="true"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="filloutId" class="form-label"
+          >Provide the fillout Identifier</label
+        >
+        <input
+          id="filloutId"
+          type="text"
+          placeholder="Fillout Identifier"
+          class="form-control"
+          [(ngModel)]="currentWebForm.filloutFormIdentifier"
+          required="true"
+        />
+      </div>
+    </div>
+
+    <div class="form-container" *ngIf="!isAddWebForm && currentDocument">
+      <div class="form-group">
+        <label for="docName" class="form-label">Provide Document Name: </label>
+        <input
+          id="docName"
+          type="text"
+          placeholder="DocumentType Name"
+          class="form-control"
+          [(ngModel)]="currentDocument.documentTypeName"
+          required="true"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="docDes" class="form-label"
+          >Provide the Document Description
+        </label>
+        <input
+          id="docDes"
+          type="text"
+          placeholder="DocumentType Description"
+          class="form-control"
+          [(ngModel)]="currentDocument.documentTypeDescription"
+          required="true"
+        />
+      </div>
+    </div>
+    <div class="dialog-footer">
+      <button label="Add" class="btn btn-primary" (click)="addData()">
+        Add
+      </button>
+      <button
+        label="Cancel"
+        class="btn btn-danger"
+        (click)="closeWebFormDocumentsModal()"
+      >
+        Cancel
+      </button>
+    </div>
+  </p-dialog>
+</div>
+<!--  Emove webform/Document Modal -->
+<div class="dialog-box-container">
+  <p-dialog
+    [(visible)]="displayFormDocDeleteDialog"
+    [modal]="true"
+    [closable]="false"
+    header="Confirm Action"
+    class="dialog-box"
+  >
+    <p>
+      Are you sure you want to <strong>remove</strong> this
+      {{ isRemoveWebForm ? "webform" : "document" }}?
+    </p>
+    <div class="dialog-footer">
+      <button class="btn btn-sm btn-outline-danger" (click)="removeData()">
+        Delete
+      </button>
+      <button
+        class="btn btn-sm btn-outline-primary"
+        (click)="closeFormDocDialog()"
+      >
+        Cancel
+      </button>
+    </div>
+  </p-dialog>
+</div>

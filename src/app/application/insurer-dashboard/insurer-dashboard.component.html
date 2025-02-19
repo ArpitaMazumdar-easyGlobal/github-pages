@@ -1,0 +1,324 @@
+<div class="container-fluid" style="margin-top: 6rem;">
+  <div class="row">
+    <div class="col-md-7"> 
+      <div style="padding-top: 4rem" class="d-flex justify-content-between align-items-center mb-3" style="width: 100%;">
+        <h1 class="title">Employer's Users</h1>
+        <button class="btn btn-outline-primary" (click)="openInviteModal()"> + Invite Members</button>
+      </div>
+      <div style="padding-inline: 0.8rem;">
+        <p-tabView>
+          <p-tabPanel header="Members">
+            <p-table
+              #dtMembers
+              [value]="employerUsers"
+              [globalFilterFields]="['firstName', 'lastName', 'userEmail', 'mobileNumber']"
+              [tableStyle]="{ 'min-width': '50rem' }"
+              [rows]="5"
+              [paginator]="true"
+            >
+              <ng-template pTemplate="caption">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      <i class="pi pi-search"></i>
+                    </span>
+                  </div>
+                  <input
+                    pInputText
+                    type="text"
+                    class="form-control"
+                    (input)="dtMembers.filterGlobal($event.target.value, 'contains')"
+                    placeholder="Global Search"
+                  />
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="firstName">User <p-sortIcon field="firstName" /></th>
+                  <th pSortableColumn="userEmail">User Email <p-sortIcon field="userEmail" /></th>
+                  <th pSortableColumn="mobileNumber">Mobile Number <p-sortIcon field="mobileNumber" /></th>
+                  <th>Access</th>
+                  <th>Actions</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-user>
+                <tr>
+                  <td>{{ user.firstName + ' ' + user.lastName }}</td>
+                  <td>{{ user.userEmail ?? 'N/A' }}</td>
+                  <td>{{ user.mobileNumber ?? 'N/A' }}</td>
+                  <td>{{ user.accessType}}</td>
+                  <td>
+                    <button class="btn-warning" (click)="openModal(user)">
+                      <i class="pi pi-pencil"></i>
+                    </button>
+                    <button class="btn-danger" (click)="openDeleteDialog(user)">
+                      <i class="pi pi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="5" class="text-center">No Records found.</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-tabPanel>
+          <p-tabPanel header="Invites">
+            <p-table
+              #dtInvites
+              [value]="inviteLists"
+              [globalFilterFields]="['name','email', 'accessType']"
+              [tableStyle]="{ 'min-width': '50rem' }"
+              [rows]="5"
+              [paginator]="true"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="email">Name <p-sortIcon field="name" /></th>
+                  
+                  <th pSortableColumn="email">Email <p-sortIcon field="email" /></th>
+                  <th pSortableColumn="status"> Access<p-sortIcon field="status" /></th>
+                  <th>Actions</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-invite>
+                <tr>
+                  <th>{{invite.firstName + " " +invite?.lastName}}</th> 
+                  <td>{{ invite.email }}</td>
+                  <td>{{ invite.accessType }}</td>
+                  <td>
+                    <button class="btn btn-outline-danger" (click)="openRevokeModal(invite)">
+                      Revoke
+                    </button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="3" class="text-center">No Invites found.</td>
+                </tr>
+              </ng-template>
+            </p-table> 
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div *ngIf="applicationInstances.length > 0">
+        <div class="container-myapplication">
+          <h5 class="heading">My Applications</h5>
+          <div
+            class="application-card"
+            *ngFor="let application of applicationInstances"
+            (click)="
+              takeToApplicationDetailPage(
+                application.applicationGuid,
+                application.applicationInstanceGuid
+              )
+            "
+          >
+            <div class="application-content">
+              <i class="fas fa-clipboard-check checkbox"></i>
+              <div class="application-details">
+                <div class="application-item">
+                  <p class="application-name">{{ application.applicationName }}</p>
+                  <p class="date">Applied : {{ application.createdAtFormatted }}</p>
+                </div>
+                <div class="application-item">
+                  <p class="application-id">
+                    Application Id: {{ application.applicationIdentifier }} |
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+    </div>
+  </div>
+  
+  <app-manage-candidates *ngIf="userType === 'ADMIN'" [empGuid]="employerId" [empNameInput]="employerName"></app-manage-candidates>
+
+
+</div>
+
+<div class="dialog-box-container">
+  <p-dialog
+    [(visible)]="displayEditUserModal"
+    [modal]="true"
+    [closable]="true"
+    [breakpoints]="{ '1500px': '65vw', '900px': '85vw', '575px': '90vw' }"
+    header="Update Employer"
+    class="dialog-box"
+  >
+    <div class="form-container" *ngIf="currentUser">
+      <div class="form-group">
+        <label for="firstName" class="form-label">First Name:</label>
+        <input
+          id="firstName"
+          type="text"
+          [(ngModel)]="currentUser.firstName"
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="lastName" class="form-label">Last Name:</label>
+        <input
+          id="lastName"
+          type="text"
+          [(ngModel)]="currentUser.lastName"
+          class="form-control"
+        />
+      </div>
+      <div class="form-group">
+        <label for="inviteRole" class="form-label">Role:</label>
+        <ng-select
+          id="inviteRole"
+          [(ngModel)]="currentUser.accessType"
+          [items]="['Admin', 'Basic']"
+          bindLabel="role"
+          class="form-control"
+        ></ng-select>
+      </div>
+      <div class="form-group">
+        <label for="userEmail" class="form-label">User Email:</label>
+        <input
+          id="userEmail"
+          type="url"
+          [(ngModel)]="currentUser.userEmail"
+          class="form-control"
+        />
+      </div>
+      <div class="form-group">
+        <label for="number" class="form-label">Mobile Number</label>
+        <input
+          id="number"
+          type="url"
+          [(ngModel)]="currentUser.mobileNumber"
+          class="form-control"
+        />
+      </div>
+    </div>
+
+    <div class="dialog-footer">
+      <button label="Update" class="btn-primary" (click)="updateUser()">
+        Update
+      </button>
+      <button label="Cancel" class="btn-danger" (click)="closeModal()">
+        Cancle
+      </button>
+    </div>
+  </p-dialog>
+</div>
+
+<div class="dialog-box-container">
+  <p-dialog
+    [(visible)]="displayDeleteDialog"
+    [modal]="true"
+    [closable]="false"
+    header="Confirm Action"
+    class="dialog-box"
+  >
+    <p>
+      Are you sure you want to <strong>delete</strong> this interview record?
+    </p>
+    <div class="dialog-footer">
+      <button label="Yes" class="btn-primary" (click)="deleteUser()">
+        Delete
+      </button>
+      <button label="No" class="btn-danger" (click)="closeDeleteDialog()">
+        Cancel
+      </button>
+    </div>
+  </p-dialog>
+</div>
+
+<!-- Modal for add invite -->
+<div class="dialog-box-container">
+  <p-dialog
+    [(visible)]="displayInviteModal"
+    [modal]="true"
+    [closable]="true"
+    [breakpoints]="{ '1500px': '50vw', '900px': '70vw', '575px': '90vw' }"
+    header="Invite New Member"
+    class="dialog-box"
+  >
+    <div class="form-container">
+      <div class="form-group">
+        <label for="inviteFirstName" class="form-label">First Name:</label>
+        <input
+          id="inviteFirstName"
+          type="text"
+          [(ngModel)]="invite.firstName"
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="inviteLastName" class="form-label">Last Name:</label>
+        <input
+          id="inviteLastName"
+          type="text"
+          [(ngModel)]="invite.lastName"
+          class="form-control"
+        />
+      </div>
+      
+      <div class="form-group">
+        <label for="inviteEmail" class="form-label">Email:</label>
+        <input
+          id="inviteEmail"
+          type="email"
+          [(ngModel)]="invite.email"
+          class="form-control"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="inviteRole" class="form-label">Role:</label>
+        <ng-select
+          id="inviteRole"
+          [(ngModel)]="invite.accessType"
+          [items]="['Admin', 'Basic']"
+          bindLabel="role"
+          class="form-control"
+        ></ng-select>
+      </div>
+    </div>
+
+    <div class="dialog-footer">
+      <button label="Invite" class="btn-primary" (click)="sendInvite()">
+        Invite
+      </button>
+      <button label="Cancel" class="btn-danger" (click)="closeInviteModal()">
+        Cancel
+      </button>
+    </div>
+  </p-dialog>
+</div>
+
+<!-- Revoke Dialog -->
+<div class="dialog-box-container">
+  <p-dialog
+    [(visible)]="displayRevokeModal"
+    [modal]="true"
+    [closable]="false"
+    header="Confirm Action"
+    class="dialog-box"
+  >
+    <p>
+      Are you sure you want to <strong>revoke</strong> the invite for
+      <span class="text-primary">{{ currentInvite?.email }}</span>?
+    </p>
+    <div class="dialog-footer">
+      <button label="Yes" class="btn-primary" (click)="revokeInvite()">
+        Revoke
+      </button>
+      <button label="No" class="btn-danger" (click)="closeRevokeDialog()">
+        Cancel
+      </button>
+    </div>
+  </p-dialog>
+</div>

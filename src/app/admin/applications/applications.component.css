@@ -1,0 +1,209 @@
+
+.wrapper{
+    background-color: white; border-radius: 10px; margin: 1rem;
+}
+
+.sub-text{
+    color: #666; font-size: 14px; margin: 5px 0 10px;
+}
+.heading{
+    color: #333; font-size: 24px; font-weight: bold; margin: 0;
+}
+
+/* Actions */
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+.actions p {
+    margin: 0;
+    padding: 0 0.5rem;
+    cursor: pointer;
+}
+
+.actions i {
+    font-size: 14px;
+}
+
+
+::ng-deep .p-button-icon{
+    font-size: 14px;
+}
+::ng-deep .p-button.p-button-icon-only{
+    width: 30px;
+    height: 30px;
+    border-radius:50% ;
+    margin-inline: 5px;
+    margin-block:10px;
+}
+::ng-deep .p-button{
+    height: 30px;
+    margin-inline: 5px;
+    margin-block:10px;
+}
+::ng-deep .p-dialog-footer{
+    padding: 20px;
+}
+::ng-deep .p-button-label{
+    padding-inline: 16px;
+    padding-block: 8px;
+    border-radius: 20px;
+}
+::ng-deep td , th{
+    padding: 0.5rem;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+::ng-deep tr:nth-last-child(1) {
+    border-bottom: none;
+}
+::ng-deep .p-paginator-bottom {
+    margin-top:20px ;
+    border:none;
+
+}
+::ng-deep .p-element{
+    border: none;
+    outline: none;
+}
+::ng-deep .p-ripple.p-element.p-paginator-page.p-paginator-element.p-link.p-highlight{
+    background-color: #469af3;
+    border-radius: 50%;
+    color: #fff;
+}
+
+::ng-deep .p-datatable-header.ng-star-inserted{
+    display: flex;
+    width: 30%;
+    padding: 0.5rem;
+    background-color: transparent;
+    border:none;
+}
+::ng-deep .input-group.ng-star-inserted{
+    border: 2px solid #ddd;
+    border-radius: 5px ;
+}
+::ng-deep .input-group-prepend, .input-group-text{
+    background-color: white;
+    height: full;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+::ng-deep .input-group-text > i{
+    font-size: 12px;
+}
+::ng-deep .input-group-prepend > .p-inputtext{
+    border: none;
+    outline: none;
+}
+::ng-deep .input-group-prepend > .p-inputtext:focus-visible, .p-inputtext:active{
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+
+@media screen and (max-width: 768px) {
+    .wrapper{
+    margin: 4rem 0 0 0;
+    padding:0;
+
+    }
+    .custom-table {
+        padding-inline: 0;
+
+    }
+    .sub-text{
+   font-size: 12px; 
+    }
+    .heading{
+     font-size: 20px; 
+    }
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  button {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 2px;
+    font-size: 12px;
+    cursor: pointer;
+    background-color: white;
+
+  }
+  
+  button.btn-primary {
+   border: 1px solid #007bff;
+   color:#007bff;
+
+  }
+  
+  button.btn-danger {
+    border: 1px solid #dc3545;
+   color:#dc3545;
+
+  }
+  
+  button.btn-success {
+    border: 1px solid #28a745;
+   color:#28a745;
+  }
+  
+  button.btn-warning {
+    border: 1px solid #ffc107;
+   color:#ffc107;
+
+  }
+
+  
+
+  /* confirm action dialog box  */
+
+  .dialog-box-container{
+    padding: 1.3rem;
+  }
+  ::ng-deep .p-dialog {
+    padding: 1rem;
+    background-color: white;
+  }
+  .add-interview-button{
+    display: inline;
+  }
+
+  .col-form-label{
+    font-size: 14px;
+    color: #333;
+  }
+  .form-control:focus{
+    border: none;
+    outline: none;
+  }
+  .form-control:active{
+    border: none;
+    outline: none;
+  }
+  .form-group{
+    margin-bottom:0.7rem;
+  }
+
+  ::ng-deep .ng-option-label{
+    font-size: 13.8px;
+  }
+  .dialog-footer{
+    display: flex;
+    flex-direction: row-reverse;
+  }

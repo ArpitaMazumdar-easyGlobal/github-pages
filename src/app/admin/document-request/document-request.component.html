@@ -1,0 +1,143 @@
+<div class="wrapper">
+  <div
+    style="padding: 20px"
+    class="d-flex justify-content-between align-items-center"
+  >
+    <div class="d-flex justify-content-between mb-2" style="width: 100%">
+      <h1 class="heading">Document Request</h1>
+      <button class="btn-primary" (click)="openModal()">
+        Create Document Request
+      </button>
+    </div>
+  </div>
+
+  <div style="padding-inline: 0.8rem" *ngIf="allDocumentRequest.length > 0">
+    <p-table
+      #dDocumentRequest
+      [value]="allDocumentRequest"
+      [globalFilterFields]="[
+        'documentTypeName',
+        'receiverEmail',
+        'receiverPhone',
+        'created',
+      ]"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rows]="10"
+      [paginator]="true"
+    >
+      <ng-template pTemplate="caption">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="pi pi-search"></i>
+            </span>
+          </div>
+          <input
+            pInputText
+            type="text"
+            class="form-control"
+            (input)="
+              dDocumentRequest.filterGlobal($event.target.value, 'contains')
+            "
+            placeholder="Global Search"
+          />
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="documentTypeName">
+            Receiver Full Name <p-sortIcon field="documentTypeName" />
+          </th>
+          <th pSortableColumn="receiverEmail">
+            Receiver Email <p-sortIcon field="receiverEmail" />
+          </th>
+          <th pSortableColumn="receiverPhone">
+            Receiver Phone Number <p-sortIcon field="receiverPhone" />
+          </th>
+          <th pSortableColumn="created">
+            Created Date <p-sortIcon field="created" />
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-documentRequest>
+        <tr [pSelectableRow]="documentRequest" class="cursor-pointer">
+          <a routerLink="/mydocuments/{{ documentRequest.receiverUserId }}"
+            ><td>
+              {{ documentRequest.receiverFullName }}
+            </td></a
+          >
+          <td>
+            {{ documentRequest.receiverEmail }}
+          </td>
+          <td>
+            {{ documentRequest.receiverPhone }}
+          </td>
+          <td>
+            {{ documentRequest.created }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div style="padding-inline: 0.8rem" *ngIf="allDocumentRequest.length == 0">
+    <div colspan="4" class="text-center">No Records found.</div>
+  </div>
+</div>
+
+<div class="dialog-box-container">
+  <p-dialog
+    [(visible)]="displayAddDocumentRequestModal"
+    [modal]="true"
+    [closable]="true"
+    [breakpoints]="{ '1500px': '65vw', '900px': '85vw', '575px': '90vw' }"
+    [header]="'Create Document Request'"
+    class="dialog-box"
+    styleClass="w-75"
+  >
+    <div class="form-container">
+      <div class="form-group">
+        <label for="SelectApplicant" class="form-label">Select Applicant</label>
+        <ng-select
+          [items]="allApplicants"
+          [searchable]="true"
+          [clearable]="true"
+          bindLabel="fullName"
+          bindValue="userGuid"
+          placeholder="Select Applicant"
+          class="form-control"
+          required="true"
+          [(ngModel)]="selectedApplicantGuid"
+        ></ng-select>
+      </div>
+      <div class="form-group">
+        <label for="DocumentType" class="form-label">Select Documents</label>
+        <p-multiSelect
+          [options]="allDocumentType"
+          optionLabel="documentTypeName"
+          placeholder="Select Document Type"
+          scrollHeight="250px"
+          styleClass="w-100 py-2 px-1"
+          class="form-control"
+          [(ngModel)]="selectedDocumentTypes"
+        />
+      </div>
+    </div>
+
+    <div class="dialog-footer">
+      <button
+        pButton
+        label="Add"
+        class="btn-primary"
+        (click)="CreateDocumentRequest()"
+      ></button>
+      <button
+        pButton
+        label="Cancel"
+        class="btn-danger"
+        (click)="closeModal()"
+      ></button>
+    </div>
+  </p-dialog>
+</div>

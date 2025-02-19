@@ -1,0 +1,241 @@
+<div class="wrapper">
+  <div
+    style="padding: 20px"
+    class="d-flex justify-content-between align-items-center"
+  >
+    <div>
+      <h1 class="heading">Applicant Details</h1>
+    </div>
+  </div>
+  <div class="custom-table">
+    <div class="table-header">
+      <div class="table-cell">First Name</div>
+      <div class="table-cell">Last Name</div>
+      <div class="table-cell">Email Id</div>
+      <div class="table-cell">Mobile Number</div>
+      <div class="table-cell">Country</div>
+      <div class="table-cell">Actions</div>
+    </div>
+
+    <div class="table-row">
+      <div class="table-cell name">
+        {{ userDetails?.firstName }}
+      </div>
+      <div class="table-cell">
+        {{ userDetails?.lastName }}
+      </div>
+      <div class="table-cell">
+        {{ userDetails?.userEmail }}
+      </div>
+      <div class="table-cell">
+        {{ userDetails?.mobileNumber }}
+      </div>
+      <div class="table-cell">
+        {{ userDetails?.countryOfNationality }}
+      </div>
+      <div class="table-cell actions">
+        <button class="btn-warning" (click)="openModalForEdit()">
+          <i class="pi pi-pencil"></i>
+        </button>
+        <button class="btn-danger" (click)="deleteUser()">
+          <i class="pi pi-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    style="padding: 20px"
+    class="d-flex justify-content-between align-items-center"
+  >
+    <div>
+      <h1 class="heading">Applications Instances Details</h1>
+    </div>
+  </div>
+
+  <div
+    style="padding-inline: 0.8rem"
+    *ngIf="applicationInstancesDetails.length > 0"
+  >
+    <p-table
+      #dApplicationInstances
+      [value]="applicationInstancesDetails"
+      [globalFilterFields]="[
+        'applicationDetails.applicationName',
+        'applicationDetails.applicationDescription',
+        'applicationDetails.applicationCountry'
+      ]"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rows]="5"
+      [paginator]="true"
+    >
+      <ng-template pTemplate="caption">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="pi pi-search"></i>
+            </span>
+          </div>
+          <input
+            pInputText
+            type="text"
+            class="form-control"
+            (input)="
+              dApplicationInstances.filterGlobal(
+                $event.target.value,
+                'contains'
+              )
+            "
+            placeholder="Global Search"
+          />
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="applicationDetails.applicationName" class="w-25">
+            Application Name
+            <p-sortIcon field="applicationDetails.applicationName" />
+          </th>
+          <th
+            pSortableColumn="applicationDetails.applicationDescription"
+            class="w-25"
+          >
+            Application Description
+            <p-sortIcon field="applicationDetails.applicationDescription" />
+          </th>
+          <th
+            pSortableColumn="applicationDetails.applicationCountry"
+            class="w-25"
+          >
+            Application Country
+            <p-sortIcon field="applicationDetails.applicationCountry" />
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-application>
+        <tr
+          [pSelectableRow]="application"
+          class="cursor-pointer"
+          (click)="
+            takeToApplicationDetailPage(
+              application.applicationDetails.applicationGuid,
+              application.applicationInstanceGuid
+            )
+          "
+        >
+          <td>
+            {{ application.applicationDetails.applicationName }}
+          </td>
+          <td>
+            {{ application.applicationDetails.applicationDescription }}
+          </td>
+          <td>
+            {{ application.applicationDetails.applicationCountry }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div
+    style="padding-inline: 0.8rem"
+    *ngIf="applicationInstancesDetails.length == 0"
+  >
+    <div colspan="4" class="text-center">No Records found.</div>
+  </div>
+
+  <div class="dialog-box-container">
+    <p-dialog
+      [(visible)]="displayEditUserModal"
+      [modal]="true"
+      [closable]="true"
+      [breakpoints]="{ '1500px': '95vw', '900px': '85vw', '575px': '90vw' }"
+      class="dialog-box"
+      [header]="'Update User'"
+    >
+      <div class="form-container">
+        <div class="form-group">
+          <label for="UserFirstName" class="form-label">User First Name</label>
+          <input
+            [(ngModel)]="editUserDetails.firstName"
+            id="UserFirstName"
+            name="editUserDetails.firstName"
+            placeholder="User First Name"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="UserLastName" class="form-label">User Last Name</label>
+          <input
+            [(ngModel)]="editUserDetails.lastName"
+            id="UserLastName"
+            name="editUserDetails.lastName"
+            placeholder="User Last Name"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="UserEmail" class="form-label">User Email Id</label>
+          <input
+            [(ngModel)]="editUserDetails.userEmail"
+            id="UserEmail"
+            name="editUserDetails.userEmail"
+            placeholder="User Email Id"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="UserMobile" class="form-label">User Mobile Number</label>
+          <input
+            [(ngModel)]="editUserDetails.mobileNumber"
+            id="UserMobile"
+            name="editUserDetails.mobileNumber"
+            placeholder="User Mobile Number"
+            class="form-control"
+          />
+        </div>
+        <!-- <div class="form-group">
+          <label for="UserCountry" class="form-label"
+            >User Country Of Nationality</label
+          >
+          <input
+            [(ngModel)]="editUserDetails.countryOfNationality"
+            id="UserCountry"
+            name="editUserDetails.countryOfNationality"
+            placeholder="User Country Of Nationality"
+            class="form-control"
+          />
+        </div> -->
+        <div class="form-group">
+          <label for="UserCountry" class="form-label">User Country Of Nationality</label>
+          <ng-select
+            [(ngModel)]="editUserDetails.countryOfNationality"
+            [items]="listOfAllCountries"
+            bindLabel="UserCountry"
+            [searchable]="true"
+            [clearable]="true"
+            placeholder="Select country"
+            (change)="onCountryChange($event)"
+            class="form-control"
+            required="true"
+          ></ng-select>
+        </div>
+        <div class="dialog-footer">
+          <button
+            pButton
+            label="Update"
+            class="btn-primary"
+            (click)="updateUser()"
+          ></button>
+          <button
+            pButton
+            label="Cancel"
+            class="btn-danger"
+            (click)="closeModalForEdit()"
+          ></button>
+        </div>
+      </div>
+    </p-dialog>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="container">
+  <button class="back-button" (click)="onBack()"> <i class="fa-solid fa-arrow-left"></i> Back</button>
+  <div class="loading-indicator" *ngIf="loading">Loading...</div>
+  <div class="fillout-container" *ngIf="!loading">
+    <h1 class="form-title">Form Answers</h1>
+    <div *ngFor="let answer of answers" class="answer-card">
+      <h2 class="answer-name">{{ answer.name }}</h2>
+      <span class="answer-label">Answer: </span>
+      <div class="answer-text" *ngIf="isArray(answer.value); else nonArrayAnswer">
+        <ul *ngFor="let item of answer.value">
+          <li *ngFor="let key of getKeys(item)">
+            <span>{{ key }}: {{ item[key] }}</span>
+          </li>
+        </ul>
+      </div>
+      <ng-template #nonArrayAnswer>
+        <div class="answer-text" *ngIf="isObject(answer.value); else nonArrayNonObjectValueAnswer">
+          <ul>
+            <li *ngFor="let key of getKeys(answer.value)">
+              <span>{{ key }}: {{ answer.value[key] }}</span>
+            </li>
+          </ul>
+        </div>
+      </ng-template>
+      <ng-template #nonArrayNonObjectValueAnswer>
+        <div class="answer-text">
+          <span *ngIf="answer.value; else noAnswer">{{ answer.value }}</span>
+          <ng-template #noAnswer>
+            <span class="no-answer">No answer provided</span>
+          </ng-template>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+

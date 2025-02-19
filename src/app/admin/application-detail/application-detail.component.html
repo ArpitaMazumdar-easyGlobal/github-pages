@@ -1,0 +1,259 @@
+<p>application-detail works!</p>
+<p>application-detail works!</p>
+<div class="sectionWithGrayBackground">
+    <div class="container-fluid" style="margin-top: 2rem">
+      <app-loading *ngIf="loading"></app-loading>
+
+      <div class="row" *ngIf="!loading && application">
+        <div class="col-md-3">
+          <progress-tracker
+            [applicationSteps]="application.applicationSteps"
+            [isForEmployerOrUser]="false"
+            (fetchApplicationDataEmitter)="loadApplicationData()"
+            (openAddStepModalEmitter)="openAddModal()"
+            (openEditStepModalEmitter)="openModalForEdit($event)"
+            (openDeleteStepModalEmitter)="openDeleteModal($event)"
+            (changeCurrentStepGuidAdminEmitter)="onSelectedStepGuidChange($event)"
+          ></progress-tracker>
+        </div>
+        <div class="col-md-9 wrapper">
+          <div>
+            
+            <h4 class="main-heading" *ngIf="selectedStep"> 
+              
+                <i (click)="onBack() "class="fas fa-arrow-left back"></i> 
+          
+              {{selectedStep.applicationStepName}}
+            </h4>
+          </div>
+          <p-tabView
+        >
+          <p-tabPanel header="Forms/Information">
+           <div class="tab-content-container">
+            <div class="heading-container"> 
+                <div class="heading">         
+                   <h3 class="name"> Forms/Information </h3>
+                   <p class="des"> List of all the WebForms and Informational for the {{selectedStep?.applicationStepName}} step</p>
+                </div>
+                <button class="btn btn-outline-primary" (click)="openWebFormDocumentModal(true)">+ Add Form</button>
+               </div>
+            <div>
+                <div  *ngFor="let webform of selectedStep?.webforms" class="d-flex content-card"> 
+                    <div class="contnet">
+                       <div>
+                        <p class="name"> {{webform.webFormName}}</p>
+                        <p class="des"> WebForm description</p>
+                       </div>
+                    </div>
+                    <button class="btn btn-xs btn-outline-danger" (click)="openDeleteFormDocModal(true, webform.applicationStepWebFormGuid)"> Remove</button>
+                 </div>
+            </div>
+           </div>
+          </p-tabPanel>
+          <p-tabPanel header="Document Collections">
+           <div class="tab-content-container">
+            <div class="heading-container">
+                <div class="heading">
+                  <h3 class="name"> Document Collection </h3>
+                   <p class="des"> List of all the Document Collections for the {{selectedStep?.applicationStepName}} step</p>
+                </div>
+              <button class="btn btn-sm btn-outline-primary"(click)="openWebFormDocumentModal(false)">+ Add Document</button>
+    
+              </div>
+              <div>
+                  <div  *ngFor="let doc of selectedStep?.documents" class="content-card"> 
+                      <div class="content">
+                          <div>
+                            <div class="d-flex gap-3">
+                               <p class="name"> {{doc.documentTypeName}} </p> 
+                               <span class="badge border border-primary text-primary" *ngIf="doc.isRequired">Required</span>
+                               <span class="badge border border-secondary text-secondary" *ngIf="!doc.isRequired">Optional</span>
+                            </div>
+                          <p class="des"> {{doc.documentTypeDescription}}</p>
+                          </div>
+                      </div>
+                      <button class="btn btn-xs btn-outline-danger" (click)="openDeleteFormDocModal(false, doc.applicationStepDocumentCollectionGuid)"> Remove</button>
+                   </div>
+              </div>
+           </div>
+          </p-tabPanel>
+          
+        </p-tabView>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Add step module -->
+  <div class="dialog-box-container" *ngIf="currentStep">
+    <p-dialog
+      [(visible)]="displayAddStepModal"
+      [modal]="true"
+      [closable]="true"
+      [breakpoints]="{ '1500px': '65vw', '900px': '85vw', '575px': '90vw' }"
+      [header]="isEditMode ? 'Edit Step' : 'Add New Step'"
+      class="dialog-box"
+    >
+      <div class="form-container">
+        <div class="form-group">
+          <label for="stepName" class="form-label">Step Name</label>
+          <input
+            id="stepName"
+            type="text"
+            placeholder="Enter Step Name"
+            [(ngModel)]="currentStep.applicationStepName"
+            class="form-control"
+            required="true"
+          />
+        </div>
+        <div class="form-group">
+          <label for="stepOrder" class="form-label">Step Order</label>
+          <input
+            id="stepOrder"
+            type="number"
+            [(ngModel)]="currentStep.applicationStepOrder"
+            placeholder="Enter step order"
+            class="form-control"
+            required="true"
+          />
+        </div>
+        <div class="form-group">
+          <label for="employerName" class="form-label"
+            >Application Step Type</label
+          >
+          <ng-select
+            [(ngModel)]="selectedValueCode"
+            [items]="stepValueCodes"
+            [searchable]="true"
+            [clearable]="true"
+            placeholder="Select Application Type"
+            (change)="onSelectedValueCodeChange($event)"
+            class="form-control"
+            required="true"
+          ></ng-select>
+        </div>
+      </div>
+  
+      <div class="dialog-footer">
+        <button
+          class="btn-primary"
+          (click)="saveStep()"
+        >
+        {{ isEditMode ? 'Update' : 'Add' }}</button>
+        <button
+          class="btn-danger"
+          (click)="closeAddModal()"
+        >Cancel</button>
+      </div>
+    </p-dialog>
+  </div>
+  <!-- Add Webform/Document Modal -->
+  <div class="dialog-box-container" *ngIf="currentStep">
+    <p-dialog
+      [(visible)]="displayWebFormDocumentModal"
+      [modal]="true"
+      [closable]="true"
+      [breakpoints]="{ '1500px': '65vw', '900px': '85vw', '575px': '90vw' }"
+      [header]="isAddWebForm ? 'Add WebForm' : 'Add Document'"
+      class="dialog-box"
+    >
+      <div class="form-container">
+  
+  
+          <div class="form-group" *ngIf="isAddWebForm">
+            <label for="" class="form-label"
+              >Select Webform</label
+            >
+            <ng-select
+              [(ngModel)]="selectedWebFormGuid"
+              [items]="webforms"
+              [searchable]="true"
+              [clearable]="true"
+              placeholder="Select Webform"
+              bindValue="webFormGuid"
+              bindLabel="webFormName"
+              class="form-control"
+              required="true"
+            ></ng-select>
+          </div>
+  
+          <div class="form-group" *ngIf="!isAddWebForm">
+            <label for="" class="form-label">Select Document Type</label>
+            <ng-select
+              [(ngModel)]="selectedDocumentTypeGuid"
+              [items]="documents"
+              [searchable]="true"
+              [clearable]="true"
+              placeholder="Select Document Type"
+              bindValue="documentTypeGuid"
+              bindLabel="documentTypeName"
+              class="form-control"
+              [required]="isRequired"
+            ></ng-select>
+          
+            <div class="form-check mt-2">
+              <input
+                type="checkbox"
+                id="isRequiredCheckbox"
+                class="form-check-input"
+                [(ngModel)]="isDocumentRequired"
+              />
+              <label for="isRequiredCheckbox" class="form-check-label">Is this Document Required?</label>
+            </div>
+          </div>
+          
+      </div>
+  
+      <div class="dialog-footer">
+        <button
+          label="Add"
+          class="btn btn-primary"
+          (click)="addData()"
+        > Add </button>
+        <button
+          label="Cancel"
+          class="btn btn-danger"
+          (click)="closeWebFormDocumentsModal()"
+        >Cancel</button>
+      </div>
+    </p-dialog>
+  </div>
+  <!-- Delete Dialog  -->
+  <div class="dialog-box-container">
+    <p-dialog
+      [(visible)]="displayDeleteDialog"
+      [modal]="true"
+      [closable]="false"
+      header="Confirm Action"
+      class="dialog-box"
+    >
+      <p>Are you sure you want to <strong>delete</strong> this step?</p>
+      <div class="dialog-footer">
+        <button class="btn btn-sm btn-outline-danger" (click)="deleteStep()">
+          Delete
+        </button>
+        <button class="btn btn-sm btn-outline-primary" (click)="closeDeleteDialog()">
+          Cancel
+        </button>
+      </div>
+    </p-dialog>
+  </div>
+  
+  <div class="dialog-box-container">
+    <p-dialog
+      [(visible)]="displayFormDocDeleteDialog"
+      [modal]="true"
+      [closable]="false"
+      header="Confirm Action"
+      class="dialog-box"
+    >
+      <p>Are you sure you want to <strong>remove</strong> this {{isRemoveWebForm ? "webform": "document"}} from the step?</p>
+      <div class="dialog-footer">
+        <button class="btn btn-sm btn-outline-danger" (click)="removeData()">
+          Delete
+        </button>
+        <button class="btn btn-sm btn-outline-primary" (click)="closeFormDocDialog()">
+          Cancel
+        </button>
+      </div>
+    </p-dialog>
+  </div>

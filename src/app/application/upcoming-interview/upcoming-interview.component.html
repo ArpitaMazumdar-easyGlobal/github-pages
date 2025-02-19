@@ -1,0 +1,196 @@
+<div class="wrapper">
+  <div
+    style="padding: 20px"
+    class="d-flex justify-content-between align-items-center"
+  >
+    <div>
+      <h1 class="heading">Manage Interviews</h1>
+      <p class="sub-text">
+        Manage all your upcoming interviews here so you don't miss one. Stay
+        organized and on top of your hiring process.
+      </p>
+    </div>
+    <button
+      class="btn-primary add-interview-button"
+      (click)="openModalForAdd()"
+      *ngIf="userType === 'ADMIN'"
+    >
+      Add Upcoming Interview
+    </button>
+  </div>
+
+  <div class="custom-table">
+    <div class="table-header">
+      <div class="table-cell name">Candidate Name</div>
+      <div class="table-cell">Country</div>
+      <div class="table-cell">Interview Start Time</div>
+      <div class="table-cell">Interview End Time</div>
+      <div class="table-cell">Joining URL</div>
+      <div class="table-cell" *ngIf="userType === 'ADMIN'">Actions</div>
+    </div>
+
+    <div *ngFor="let interview of interviews" class="table-row">
+      <div class="table-cell name">
+        <p>
+          {{
+            interview.matchedCandidateFirstName +
+              " " +
+              interview.matchedCandidateLastName
+          }}
+        </p>
+      </div>
+      <div class="table-cell">
+        <p>{{ interview.matchedCandidateCountry }}</p>
+      </div>
+      <div class="table-cell">
+        <p>{{ interview.formattedStartTime + " (" + interview.timeZone +")" }}</p>
+      </div>
+      <div class="table-cell">
+        <p>{{ interview.formattedEndTime + " (" + interview.timeZone +")" }}</p>
+      </div>
+      <div class="table-cell">
+        <a href="{{ interview.joiningUrl }}" target="_blank">{{
+          interview.joiningUrl
+        }}</a>
+      </div>
+      <div class="table-cell actions" *ngIf="userType === 'ADMIN'">
+        <button class="btn-warning" (click)="openModalForEdit(interview)">
+          <i class="pi pi-pencil"></i>
+        </button>
+        <button
+          class="btn-danger"
+          (click)="confirmDelete(interview)"
+        >
+          <i class="pi pi-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Interview Modal -->
+  <div class="dialog-box-container">
+    <p-dialog
+    [(visible)]="displayAddInterviewModal"
+    [modal]="true"
+    [closable]="true"
+    [breakpoints]="{ '1500px': '65vw', '900px': '85vw', '575px': '90vw' }"
+    [header]="isEditMode ? 'Edit Interview' : 'Add Upcoming Interview'"
+    class="dialog-box"
+  >
+    <div class="form-container">
+      <div class="form-group">
+        <label for="employerName" class="form-label">Employer Name</label>
+        <ng-select
+          [(ngModel)]="selectedEmployer"
+          [items]="employers"
+          bindLabel="employerName"
+          [searchable]="true"
+          [clearable]="true"
+          placeholder="Select employer"
+          [disabled]="isEditMode"
+          (change)="onEmployerChange($event)"
+          class="form-control"
+          required="true"
+        ></ng-select>
+      </div>
+  
+      <div class="form-group">
+        <label for="candidateEmail" class="form-label">Candidate Email</label>
+        <ng-select
+          [(ngModel)]="selectedCandidate"
+          [items]="employerMatchedCandidates"
+          bindLabel="displayLabel"
+          [searchable]="true"
+          [clearable]="true"
+          [disabled]="employerMatchedCandidates.length === 0 || isEditMode"
+          placeholder="Select Candidate"
+          (change)="onCandidateChange($event)"
+          class="form-control"
+          required="true"
+        ></ng-select>
+      </div>
+  
+      <div class="form-group">
+        <label for="timeZone" class="form-label">Select a time zone for interview time</label>
+        <ng-select
+          [(ngModel)]="currentInterview.timeZone"
+          [items]="timezones"
+          bindLabel="label"
+          bindValue="value"
+          placeholder="Select Time Zone"
+          class="form-control"
+          required="true"
+        ></ng-select>
+      </div>
+      
+      
+      <div class="form-group">
+        <label for="startTime" class="form-label">Start Time</label>
+        <input
+          type="datetime-local"
+          id="startTime"
+          class="form-control"
+          [(ngModel)]="currentInterview.interviewStartDateTime"
+          (change)="validateStartEndTime()"
+          required="true"
+        />
+        <small class="text-danger" *ngIf="startTimeError">{{ startTimeError }}</small>
+      </div>
+  
+      <div class="form-group">
+        <label for="endTime" class="form-label">End Time</label>
+        <input
+          type="datetime-local"
+          id="endTime"
+          class="form-control"
+          [(ngModel)]="currentInterview.interviewEndDateTime"
+          (change)="validateStartEndTime()"
+          required="true"
+        />
+        <small class="text-danger" *ngIf="endTimeError">{{ endTimeError }}</small>
+      </div>
+  
+      <div class="form-group">
+        <label for="joiningUrl" class="form-label">Joining URL</label>
+        <input
+          id="joiningUrl"
+          type="url"
+          [(ngModel)]="currentInterview.joiningUrl"
+          class="form-control"
+          (change)="validateJoiningUrl()"
+          required="true"
+        />
+        <small class="text-danger" *ngIf="joiningUrlError">{{ joiningUrlError }}</small>
+      </div>
+    </div>
+  
+    <div class="dialog-footer">
+      <button
+        pButton
+        label="{{ isEditMode ? 'Update' : 'Add' }}"
+        class="btn-primary"
+        (click)="saveInterview()"
+      ></button>
+      <button
+        pButton
+        label="Cancel"
+        class="btn-danger"
+        (click)="closeModal()"
+      ></button>
+    </div>
+  </p-dialog>
+  
+  <div class="dialog-box-container">
+    <p-dialog [(visible)]="displayDeleteDialog" [modal]="true" [closable]="false" header="Confirm Action" class="dialog-box">
+      <p>
+        Are you sure you want to <strong>delete</strong> this interview record?
+      </p>
+      <div class="dialog-footer">
+        <button pButton label="Yes" class="btn-primary" (click)="deleteInterview()"></button>
+        <button pButton label="No" class="btn-danger" (click)="closeDeleteDialog()"></button>
+      </div>
+    </p-dialog>
+   </div>
+  
+  </div>
+</div>

@@ -1,0 +1,367 @@
+.manage-candidates-container {
+  text-align: center;
+  padding: 2rem;
+  margin-top: 40px;
+  color: #555;
+  display: flex;
+  width: 60%;
+  margin-inline: auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.manage-candidates-image {
+  max-width: 250px;
+  height: auto;
+  margin-bottom: 1.5rem;
+}
+
+.manage-candidates-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.manage-candidates-description {
+  font-size: 1rem;
+  color: #777;
+}
+
+.wrapper {
+  background-color: white;
+  border-radius: 10px;
+  margin: 4rem 1rem 1rem 1rem;
+}
+.custom-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: calc(100vh - 200px);
+  max-height: calc(100vh - 200px);
+  background-color: white;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  overscroll-behavior: contain auto;
+  border: 1px solid #ddd;
+  border-top: none;
+}
+
+::ng-deep ul {
+  margin: 0;
+}
+::ng-deep a {
+  text-decoration: none !important ;
+}
+.sub-text {
+  color: #666;
+  font-size: 14px;
+  margin: 5px 0 10px;
+}
+.heading {
+  color: #333;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+}
+.table-header,
+.table-row {
+  display: flex;
+}
+.highlighted-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.highlighted-name > .icon {
+  font-size: 11px;
+  color: #ffd700;
+  font-weight: 400;
+}
+.table-cell {
+  padding-block: 0.4rem;
+
+  flex: 1;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  color: #677788;
+  font-size: 15px;
+}
+
+.table-cell.name {
+  font-size: 15px;
+  font-weight: bold;
+  color: #1e2022;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.table-header {
+  background-color: white;
+  font-weight: bold;
+}
+.table-header > .table-cell {
+  color: #677788;
+  font-size: 13px;
+  border-right: 1px solid #ddd;
+  text-align: center;
+}
+
+.table-row {
+  background-color: white;
+  font-size: 15px;
+  color: #1e2022;
+}
+.table-row .table-cell:first-child,
+.table-header .table-cell:first-child {
+  flex: 1;
+  flex-shrink: 0;
+}
+.highlighted {
+  background-color: #eef2f8;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actions p {
+  margin: 0;
+  padding: 0 0.5rem;
+  cursor: pointer;
+}
+
+.actions i {
+  font-size: 14px;
+}
+
+.more-btn {
+  position: relative;
+  cursor: pointer;
+}
+
+.more-btn:hover {
+  color: #000;
+}
+
+.more-btn i {
+  font-size: 14px;
+}
+
+.more-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  width: 150px;
+  z-index: 10;
+}
+
+.more-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.more-menu li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.more-menu li:hover {
+  background-color: #f4f4f4;
+}
+
+.title {
+  color: #1e2022;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px;
+}
+.custom-button {
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+}
+::ng-deep .p-fileupload-row.ng-star-inserted {
+  display: none !important;
+}
+::ng-deep .custom-button {
+  font-size: 12px;
+  padding: 0;
+}
+::ng-deep .p-button-icon {
+  font-size: 14px;
+}
+::ng-deep .p-button.p-button-icon-only {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-inline: 5px;
+  margin-block: 10px;
+}
+::ng-deep .p-button {
+  height: 30px;
+  margin-inline: 5px;
+  margin-block: 10px;
+}
+::ng-deep .p-dialog-footer {
+  padding: 20px;
+}
+::ng-deep .p-button-label {
+  padding-inline: 16px;
+  padding-block: 8px;
+  border-radius: 20px;
+}
+
+.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+
+::ng-deep .p-tabview-title {
+  font-size: 14px;
+  color: gray;
+  padding: 1rem;
+  text-decoration: none;
+}
+
+::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  border: none;
+}
+::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  border-bottom: 2px solid #6366f1;
+}
+@media screen and (max-width: 768px) {
+  .wrapper {
+    margin: 4rem 0 0 0;
+    padding: 0;
+  }
+  .custom-table {
+    padding-inline: 0;
+  }
+  .sub-text {
+    font-size: 12px;
+  }
+  .heading {
+    font-size: 20px;
+  }
+  .table-cell {
+    min-width: 120px;
+    overflow-wrap: break-word;
+  }
+
+  .table-cell.actions {
+    min-width: 100px;
+  }
+  ::ng-deep .p-tabview-title {
+    padding-inline: 0.5rem;
+  }
+  ::ng-deep ul {
+    padding-left: 0;
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  padding: 4px 8px;
+  border: none;
+  border-radius: 2px;
+  font-size: 12px;
+  cursor: pointer;
+  background-color: white;
+}
+
+button.btn-primary {
+  border: 1px solid #007bff;
+  color: #007bff;
+}
+
+button.btn-danger {
+  border: 1px solid #dc3545;
+  color: #dc3545;
+}
+
+button.btn-success {
+  border: 1px solid #28a745;
+  color: #28a745;
+}
+
+button.btn-warning {
+  border: 1px solid #ffc107;
+  color: #ffc107;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* confirm action dialog box  */
+
+.dialog-box-container {
+  padding: 1rem;
+}
+::ng-deep .p-dialog {
+  padding: 1rem;
+  background-color: white;
+}
+.container-home {
+  margin-top: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 80vh;
+}
+
+.done-image {
+  max-width: 280px;
+  margin-bottom: 20px;
+}
+
+.done-title {
+  color: #3b82f6;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.done-message {
+  color: #848a92;
+  font-size: 14px;
+  margin-bottom: 10px;
+  max-width: 600px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.table-heading > th {
+  color: #007bff;
+}
+
+th {
+  padding: 10px;
+}
+
+::ng-deep input[type="text"] {
+  padding: 5px 10px;
+}

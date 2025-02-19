@@ -1,0 +1,85 @@
+<div class="progress-tracker" *ngIf="auth.user$ | async as user">
+  <div class="d-flex justify-content-between align-items-center"> 
+   <h4 class="title">{{isForEmployerOrUser ? "Progress Tracker":"Application Steps"}}</h4>
+   <button *ngIf="!isForEmployerOrUser" class="btn btn-outline-success" (click)=" openAddStepModal()"> + Add</button>
+  </div>
+   <div class="steps">
+     <div *ngFor="let step of applicationSteps; let i = index" class="step">
+       <div
+         class="step-number"
+         [ngClass]="step.stepStatus"
+         (click)="userType  ? (!isForEmployerOrUser ? changeCurrentStepGuidAdmin(step.applicationStepGuid) : changeCurrentStep(step.applicationStepGuid, step.applicationStepOrder) ): null"
+       >
+         <ng-container
+           *ngIf="step.stepStatus === 'confirmed'; else stepTemplate"
+         >
+           <i class="fa-solid fa-check"></i>
+         </ng-container>
+         <ng-template #stepTemplate>{{ step.applicationStepOrder }}</ng-template>
+       </div>
+       <div class="step-content d-flex justify-content-between" style="width: 100%;">
+         <div class="step-data">
+           <div class="step-title">{{ step.applicationStepName }}</div>
+           <div class="step-date">{{ step.created }}</div>
+         </div>
+         <div class="d-flex step-action-buttons" *ngIf="userType === 'ADMIN'">
+           <ng-container *ngIf="step.instanceCreated && isForEmployerOrUser; else showPlayButton">
+             <button
+               class="btn step-action create"
+               (click)="openDialog('complete', step)"
+               *ngIf="step.stepStatus !== 'confirmed'"
+             >
+               Complete
+             </button>
+           </ng-container>
+           <ng-template #showPlayButton>
+             <button
+               *ngIf="isForEmployerOrUser"
+               class="btn step-action"
+               (click)="openDialog('create', step)"
+             >
+               Create
+             </button>
+           </ng-template>
+           <div *ngIf="!isForEmployerOrUser" class="d-flex justify-content-between"> 
+             <button class="btn btn-outline-primary mr-3" (click)="openModalForEdit(step)"> Edit</button>
+             <button class="btn btn-outline-danger" (click)="openDeleteStepModal(step)">  Delete</button>
+           </div>
+         </div>
+       </div>
+       <div *ngIf="i < applicationSteps.length - 1" class="line"></div>
+     </div>
+   </div>
+   <div class="bottom-design"></div>
+ 
+   <!-- Actions Confirmation Dialog -->
+   <div class="dialog-box-container">
+     <p-dialog
+       [(visible)]="displayDialog"
+       [modal]="true"
+       [closable]="false"
+       header="Confirm Action"
+       class="dialog-box"
+     >
+       <p>
+         Are you sure you want to <strong>{{ actionToConfirm }}</strong> this
+         step?
+       </p>
+       <div class="dialog-footer">
+         <button
+           pButton
+           label="Yes"
+           class="btn-primary"
+           (click)="confirmAction()"
+         ></button>
+         <button
+           pButton
+           label="No"
+           class="btn-danger"
+           (click)="closeDialog()"
+         ></button>
+       </div>
+     </p-dialog>
+   </div>
+ </div>
+ 

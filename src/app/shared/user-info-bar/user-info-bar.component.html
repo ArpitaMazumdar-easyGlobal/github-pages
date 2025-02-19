@@ -1,0 +1,25 @@
+<div class="header-container" >
+    <div class="d-flex align-items-center justify-content-between application-header" >
+      <div class="dropdown">
+        <div class="dropdown-toggle d-flex align-items-center" id="dropdown-custom-components" data-bs-toggle="dropdown" aria-expanded="false"  >
+          <div class="circular-flag">
+            <!-- <span class="fi fi-{{ selectedApplication.countryCode }}"></span> -->
+             <img src="Albania.svg" />
+          </div>
+          <h6 class="application-text mb-0">
+            Application {{ selectedApplication.number }}
+          </h6>
+        </div>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" (click)="handleSelect('#372156531', 'ca')"><span class="fi fi-ca"></span> #372156531</a></li>
+          <li><a class="dropdown-item" (click)="handleSelect('#372156532', 'us')"><span class="fi fi-us"></span> #372156532</a></li>
+          <li><a class="dropdown-item" (click)="handleSelect('#372156533', 'gb')"><span class="fi fi-gb"></span> #372156533</a></li>
+          <!-- Add more options as needed -->
+        </ul>
+      </div>
+      <div class="last-modified-text">
+        Last modified 14 days ago
+      </div>
+    </div>
+  </div>
+  

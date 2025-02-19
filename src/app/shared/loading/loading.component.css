@@ -1,0 +1,105 @@
+.loading-screen {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff; 
+  color: #ffffff;
+  z-index: 99999; 
+  
+  .globe-animation {
+    position: relative;
+    width: 120px;
+    height: 120px;
+
+    .globe {
+      width: 100%;
+      height: 100%;
+      background: url('/assets/globe.png') no-repeat center;
+      background-size: contain;
+      animation: spin 4s linear infinite;
+    }
+
+    .pathways {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      gap: 4px;
+
+      .pathway {
+        width: 8px;
+        height: 8px;
+        background: #377DFF;
+        border-radius: 50%;
+        animation: pulse 1.5s infinite alternate;
+      }
+
+      .pathway:nth-child(2) {
+        animation-delay: 0.5s;
+      }
+
+      .pathway:nth-child(3) {
+        animation-delay: 1s;
+      }
+    }
+  }
+
+  .progress-bar {
+    width: 45%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 20px;
+
+    .progress {
+      width: 50%;
+      height: 100%;
+      background: #377DFF;
+      animation: load 2s infinite alternate;
+    }
+  }
+
+  .loading-message {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    text-align: center;
+    color: #377DFF;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  to {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes load {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}

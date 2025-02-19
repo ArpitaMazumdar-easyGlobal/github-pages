@@ -1,0 +1,80 @@
+.header-container {
+    background-color: #ffffff;
+    margin-top: 4rem;
+  }
+  
+  .top-line {
+    background-color: #007bff; 
+    height: 4px;
+  }
+  
+  .application-header {
+    padding: 10px 20px; 
+  }
+  
+  .circular-flag {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ffffff; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    border: 1px solid #dee2e6; 
+  }
+  
+  .circular-flag .fi {
+    font-size: 20px;
+  }
+  
+  .application-text {
+    color:  #1E2022;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.14px;
+  }
+  
+  .last-modified-text {
+    color:  #677788;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 19px;
+    letter-spacing: 0.13px;
+  }
+  
+  .dropdown-toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    padding: 0;
+  }
+  
+  .dropdown-toggle::after {
+    display: none;
+  }
+  
+  .dropdown-menu {
+    color: #ffffff;
+    width: auto;
+    min-width: 200px;
+  }
+  
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  .dropdown-item .fi {
+    margin-right: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .lastModifiedText {
+      display: none;
+    }
+  }

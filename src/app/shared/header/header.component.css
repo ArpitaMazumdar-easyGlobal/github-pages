@@ -1,0 +1,64 @@
+.navbar {
+  padding: 0;
+  margin: 0;
+  transition: top 0.3s; /* Smooth transition for fixed position */
+  border-bottom: 0.5px solid #E7EAF3  ;
+}
+
+.right-navbar-section {
+  margin-left: auto; /* Use auto margin to push to the right */
+}
+
+.container-fluid {
+  background-color: white;
+}
+
+/* Ensure content below the navbar doesn't hide behind it */
+body {
+  padding-top: 56px; /* Adjust based on the navbar height */
+}
+.notification-btn{
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F3F7FF;
+}
+::ng-deep .nav-link.active{
+  color: #377DFF !important;
+  border-bottom: 1px solid  #377DFF;
+  font-weight:bold;
+  height: 100%;
+
+}
+/* Style for the profile menu dropdown */
+::ng-deep .right-navbar-section {
+  position: relative; 
+}
+
+
+::ng-deep .cdk-overlay-container {
+  position: absolute !important; 
+  top: 70px; 
+  right: 0; 
+  max-width: 200px;  
+  max-height: 200px;
+  padding :10px;
+  font-size: 13px;
+  z-index: 1050;  
+  background-color: white;
+}
+::ng-deep .mat-mdc-menu-item-text {
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  width: 80%;
+}
+
+::ng-deep .mat-mdc-menu-item-text:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+

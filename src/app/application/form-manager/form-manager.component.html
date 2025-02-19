@@ -1,0 +1,138 @@
+<app-user-info-bar></app-user-info-bar>
+<div class="sectionWithGrayBackground">
+  <div class="container-fluid">
+    <div *ngIf="loading" class="loading-screen">
+      <div class="loading-spinner"></div>
+      <p>Loading, please wait...</p>
+    </div>
+
+    <div class="row" *ngIf="!loading && application">
+      <div class="col-md-3">
+        <progress-tracker
+          [applicationSteps]="application.applicationSteps"
+          [appInstancecurrentStepGuid]="currentStepGuid"
+          (changeCurrentStepGuidEmitter)="changeCurrentStepGuid($event)"
+          (fetchApplicationDataEmitter)="loadApplicationData()"
+        ></progress-tracker>
+      </div>
+      <div class="col-md-9 wrapper">
+        <div *ngIf="showFullContent">
+          <div class="top-design">
+            <div class="left">
+              <h2 class="top-design-title">Application Summary</h2>
+              <div>
+                <p class="top-design-subtext">{{ application.headerBanner }}</p>
+                <div class="items">
+                  <img src="Bag.svg" />
+                  <span class="items-text">{{
+                    application.userObjective
+                  }}</span>
+                  <img src="Arrow.svg" />
+                  <img src="Flag.svg" />
+                  <span class="items-text">
+                    {{ application.destinationCountry }}</span
+                  >
+                </div>
+              </div>
+              <div>
+                <p class="top-design-subtext">
+                  {{
+                    userType == "APPLICANT"
+                      ? "Eligible For Program"
+                      : "EMPLOYER"
+                  }}
+                </p>
+                <p class="items-text">{{ application.applicationName }}</p>
+              </div>
+            </div>
+            <div class="right">
+              <img src="Red.svg" />
+              <div class="globe">
+                <img src="Globe.svg" />
+              </div>
+            </div>
+            <div class="plane">
+              <img src="Plane.svg" />
+            </div>
+            <div class="line">
+              <img src="line.svg" />
+            </div>
+          </div>
+
+          <div *ngIf="(isAllStepsCompleted() && currentStepGuid) || (!isAllStepsCompleted() && currentStepGuid)">
+            <app-fillout
+              *ngIf="
+                isCurrentStepInformational &&
+                applicationGuid &&
+                webFormInstanceGuid &&
+                filloutFormIdentifier &&
+                webformName
+              "
+              [isChild]="true"
+              [parentApplicationGuid]="applicationGuid"
+              [parentWebFormInstanceGuid]="webFormInstanceGuid"
+              [parentFilloutFormIdentifier]="filloutFormIdentifier"
+              [parentWebformName]="webformName"
+              [parentWebformGuid]="currentStepWebFormGuid"
+              [parentAppInstanceGuid]="applicationInstanceGuid"
+            ></app-fillout>
+            <p-tabView
+              [(activeIndex)]="activeTabIndex"
+              *ngIf="!isCurrentStepInformational"
+            >
+              <p-tabPanel header="Form/Information">
+                <app-webforms
+                  [forms]="webformsPending"
+                  [isCurrentStepInformational]="isCurrentStepInformational"
+                  [applicationGuid]="applicationGuid"
+                  [currentStepGuid]="currentInstanceStepGuid"
+                  [currentappinstGuid]="applicationInstanceGuid"
+                  (tabChange)="handleTabChange($event)"
+                  [applicationInstanceStepGuid]="currentInstanceStepGuid"
+                >
+                </app-webforms>
+              </p-tabPanel>
+              <p-tabPanel header="Upload Required Documents">
+                <app-upload-document
+                  *ngIf="documentCollection.length > 0"
+                  [documentsInput]="documentCollection"
+                  [currentStepGuid]="currentInstanceStepGuid"
+                  [applicationGuid]="applicationGuid"
+                  [applicationInstanceStepGuid]="currentInstanceStepGuid"
+                  (refreshFormManagerDataEmitter)="
+                    loadApplicationData()
+                  "
+                >
+                </app-upload-document>
+              </p-tabPanel>
+              <p-tabPanel header="Submitted Forms">
+                <app-completed-forms
+                  [forms]="webformsCompleted"
+                  [applicationGuid]="applicationGuid"
+                  [currentStepGuid]="currentInstanceStepGuid"
+                  [currentappinstGuid]="applicationInstanceGuid"
+                >
+                </app-completed-forms>
+              </p-tabPanel>
+            </p-tabView>
+          </div>
+          <div *ngIf="!currentStepGuid && !isAllStepsCompleted()" class="container-info"> 
+            <app-info-message
+            imageUrl="nothing.png"
+            heading="No Active Step to Show"
+            subheading="It looks like there isn’t an active step for you at the moment.Please check after sometime for updates or r reach out to our support team if you need any help. "
+          ></app-info-message>
+          </div>
+          <div *ngIf="isAllStepsCompleted() && !currentStepGuid" class="container-info"> 
+            <app-info-message
+            imageUrl="done.svg"
+            heading="You’re All Set – Nothing More Needed!"
+            subheading="You’ve successfully completed all the required steps for your job application. There’s nothing more needed from you or us at this stage. We appreciate your effort and will reach out if anything comes up!"
+          ></app-info-message>
+          </div>
+        </div>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

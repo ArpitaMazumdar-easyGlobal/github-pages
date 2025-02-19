@@ -1,0 +1,28 @@
+
+  <div class="sectionWithGrayBackground">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="loading-screen" *ngIf="loading">
+          <div class="loading-spinner"></div>
+          <p>Loading, please wait...</p>
+        </div>
+        <div class="container-home" *ngIf="!loading">
+            <h5 class="heading"> Application Forms</h5>
+          <div class="application-card" *ngFor="let application of applications">
+              <i class="fa-solid fa-file-signature icon"></i>
+              <div class="application-content">
+                  <div>
+                      <p class="application-name">{{ application.applicationName }}</p>
+                      <p class="application-description">{{ application.applicationDescription }}</p>
+                  </div>
+                  <div class="button-container">
+                      <button class="apply-button" (click)="onClick(application.applicationGuid)">
+                          Apply Now
+                      </button>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

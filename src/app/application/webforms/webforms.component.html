@@ -1,0 +1,60 @@
+<div
+  *ngIf="!isAllFormsCompleted() && !isCurrentStepInformational"
+  class="container-home"
+>
+  <div class="bottom">
+    <div class="title-wrapper">
+      <h5 class="title">Application Forms {{ isCurrentStepInformational }}</h5>
+      <div>
+        <p class="completed-info">
+          {{ getCompletedFormsCount() }} / {{ forms.length }} Completed
+        </p>
+      </div>
+    </div>
+    <div class="application-card" *ngFor="let form of forms">
+      <img src="Icon.svg" />
+
+      <div class="application-content">
+        <div>
+          <p class="application-name">
+            {{ form.applicationStep_webFormName }}
+            <!-- <span *ngIf="form.completedDateTime" class="completed">
+              <i class="fa-regular fa-circle-check"></i> Completed
+            </span> -->
+          </p>
+          <p class="application-des">Check your eligibility to explore ...</p>
+        </div>
+        <!-- <div *ngIf="form.completedDateTime; else showFillNow" class="button-container">
+        </div> -->
+        <!-- <ng-template>
+          <div class="button-container">
+            <button class="apply-button" (click)="onFormClick(form.webFormGuid,  form.applicationStep_webFormName)">
+              <img src="RightArrow.svg" />
+            </button>
+          </div>
+        </ng-template> -->
+        <div class="button-container">
+          <button
+            class="apply-button"
+            (click)="
+              onFormClick(form.webFormGuid, form.applicationStep_webFormName)
+            "
+          >
+            <img src="RightArrow.svg" />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  *ngIf="isAllFormsCompleted() && !isCurrentStepInformational"
+  class="container-home done"
+>
+  <app-info-message
+    imageUrl="done.svg"
+    heading="You are all done for now!"
+    subheading="Thank you for completing all the required forms. Our team will review your
+  application and contact you soon with further steps. Stay tuned!"
+  ></app-info-message>
+</div>
