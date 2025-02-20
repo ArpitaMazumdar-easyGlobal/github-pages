@@ -64,7 +64,7 @@ export class HeaderComponent implements OnInit{
   logout() {
     // Logout from Auth0
     this.store.dispatch(logout());
-    this.auth.logout({ logoutParams: { returnTo: "https://localhost:4200" } });
+    this.auth.logout({ logoutParams: { returnTo: "https://arpitamazumdar-easyglobal.github.io/github-pages/" } });
   }
 
 }

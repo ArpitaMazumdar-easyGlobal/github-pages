@@ -22,7 +22,7 @@ function initializeAppConfig(appConfig: AppConfigService, authConfig: AuthClient
       domain: appConfig.auth0Domain,
       clientId: appConfig.auth0ClientId,
       authorizationParams: {
-        redirect_uri: 'https://localhost:4200/login',
+        redirect_uri: 'https://arpitamazumdar-easyglobal.github.io/github-pages/login',
         audience: appConfig.audience,
         scope: 'openid profile email',
       },
@@ -48,7 +48,7 @@ bootstrapApplication(AppComponent, {
       domain: '',
       clientId: '',
       authorizationParams: {
-        redirect_uri: 'https://localhost:4200',
+        redirect_uri: 'https://arpitamazumdar-easyglobal.github.io/github-pages/',
         audience: 'https://easyglobal/',
         scope: 'openid profile email',
       },
