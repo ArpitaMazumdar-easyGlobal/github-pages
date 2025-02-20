@@ -31,7 +31,13 @@ export class AppConfigService {
     var apiUrl = `${this.baseUrl +"/Tenant" + ApiPaths.GetTenant}/${hostname}`;
 
 
-    return firstValueFrom(this.http.get(apiUrl))
+    return firstValueFrom(this.http.get(apiUrl,
+      {
+        headers: {
+          "ngrok-skip-browser-warning": "true"
+        }
+      }
+    ))
       .then((data: any) => {
         this.config.auth0Domain = data.auth0Domain;
         this.config.auth0ClientId = data.auth0ClientId;
