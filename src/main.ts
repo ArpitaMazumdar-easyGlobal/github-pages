@@ -1,7 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withHashLocation } from '@angular/router';
 import { routes } from './app/app.routes';
 import { provideHttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { auth0TokenInterceptor } from './app/core/auth0Token/auth0-token.interceptor';
@@ -41,7 +41,7 @@ export function rehydrateState() {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes, withHashLocation()),
     provideHttpClient(),
     provideAnimations(),
     provideAuth0({
